@@ -1,0 +1,70 @@
+@import url("//fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap");
+            
+body {
+    background-color: #0e0e0e;
+    color: white;
+    font-family: "Fredoka", sans-serif;
+}
+
+.links {
+    max-width: 550px;
+    margin: 30px auto;
+}
+
+.link {
+    display: grid;
+    text-decoration: none;
+    font-size: 27px;
+    color: #0e0e0e;
+    background-color: white;
+    border-radius: 27px;
+    padding: 15px;
+    grid-template-columns: auto auto;
+    grid-gap: 15px;
+    margin: 15px;
+    transition: all ease 0.2s;
+}
+
+.link > img {
+    font-size: 25px;
+}
+
+.link:hover {
+    transform: scale(1.06);
+}
+
+.site {
+    background: linear-gradient(135deg,
+    rgba(39, 140, 235, 1) 16%,
+    rgba(12, 209, 197, 1) 32%,
+    rgba(159, 90, 225, 1) 48%,
+    rgba(238, 69, 154, 1) 64%,
+    rgba(255, 82, 82, 1) 80%,
+    rgba(255, 202, 14, 1) 100%
+    );
+    background-size: 400% 400%;
+    animation: gradient 5s ease-in-out infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[class^="icon-"] {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    background: 50% 50% no-repeat;
+    background-size: 100%;
+    border-radius: 20%;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 50% 100%;
+    }
+    50% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 50% 100%;
+    }
+}
