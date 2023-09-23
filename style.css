@@ -44,8 +44,14 @@ body {
     );
     background-size: 400% 400%;
     animation: gradient 5s ease-in-out infinite;
+    -ms-background-clip: text;
+    -ms-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    -o-background-clip: text;
+    -o-text-fill-color: transparent;
 }
 
 [class^="icon-"] {
