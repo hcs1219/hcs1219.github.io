@@ -2,6 +2,10 @@
             
 body {
     background-color: #0e0e0e;
+    background-image: url("https://sgimage.netmarble.com/images/netmarble/sololv/20230522/qmpo1684747031613.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
     color: white;
     font-family: "Fredoka", sans-serif;
 }
@@ -30,7 +34,8 @@ body {
 }
 
 .link:hover {
-    transform: scale(1.06);
+    background: none;
+    border: thin solid white;
 }
 
 .site {
