@@ -2,7 +2,7 @@
             
 body {
     background-color: #0e0e0e;
-    background-image: url("https://sgimage.netmarble.com/images/netmarble/sololv/20230522/qmpo1684747031613.png");
+    background-image: url("/shizuku1.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -21,6 +21,7 @@ body {
     font-size: 27px;
     color: #0e0e0e;
     background-color: white;
+    border: thin solid white;
     border-radius: 27px;
     padding: 15px;
     grid-template-columns: auto auto;
@@ -35,7 +36,6 @@ body {
 
 .link:hover {
     background: none;
-    border: thin solid white;
 }
 
 .site {
