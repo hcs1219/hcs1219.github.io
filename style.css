@@ -39,7 +39,7 @@ body {
      #fec837 75%,
      #fd1892 100%
     );
-    border-image-slice: 1;
+    /*border-image-slice: 1;*/
 }
 
 .site {
