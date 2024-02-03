@@ -6,6 +6,7 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+    filter: brightness(40%);
     color: white;
     font-family: "Fredoka", sans-serif;
 }
