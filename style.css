@@ -20,7 +20,7 @@ body {
     text-decoration: none;
     font-size: 27px;
     color: #0e0e0e;
-    background-color: white;
+    background: none;
     border: thin solid white;
     border-radius: 27px;
     padding: 15px;
@@ -31,17 +31,25 @@ body {
 }
 
 .link:hover {
-    background: none;
+    border: thin solid transparent;
+    border-image: linear-gradient(to bottom right,
+     #b827fc 0%,
+     #2c90fc 25%,
+     #b8fd33 50%,
+     #fec837 75%,
+     #fd1892 100%
+    );
+    border-image-slice: 1;
 }
 
 .site {
     background: linear-gradient(135deg,
-    rgba(39, 140, 235, 1) 16%,
-    rgba(12, 209, 197, 1) 32%,
-    rgba(159, 90, 225, 1) 48%,
-    rgba(238, 69, 154, 1) 64%,
-    rgba(255, 82, 82, 1) 80%,
-    rgba(255, 202, 14, 1) 100%
+     rgba(39, 140, 235, 1) 16%,
+     rgba(12, 209, 197, 1) 32%,
+     rgba(159, 90, 225, 1) 48%,
+     rgba(238, 69, 154, 1) 64%,
+     rgba(255, 82, 82, 1) 80%,
+     rgba(255, 202, 14, 1) 100%
     );
     background-size: 400% 400%;
     animation: gradient 5s ease-in-out infinite;
