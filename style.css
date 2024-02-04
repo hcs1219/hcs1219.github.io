@@ -13,6 +13,8 @@ html, body {
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+    background-color: grey;
+    background-blend-mode: multiply;
 }
 
 .links {
