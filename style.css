@@ -30,11 +30,11 @@ html, body {
     padding: 15px;
     grid-template-columns: auto auto;
     grid-gap: 15px;
-    margin: 15px;
+    margin: 17px;
     transition: all ease 0.2s;
 }
 
-.link::before:hover {
+.link:hover::before {
     content: "";
     border: thin solid transparent;
     background: linear-gradient(to bottom right,
