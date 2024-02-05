@@ -36,7 +36,7 @@ html, body {
 
 .link:hover {
     border: thin solid transparent;
-    background: none padding-box,
+    background: white padding-box,
      linear-gradient(to bottom right,
      rgba(184, 39, 252) 0%,
      rgba(44, 144, 252) 25%,
