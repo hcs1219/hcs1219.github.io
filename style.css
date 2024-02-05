@@ -26,7 +26,7 @@ html, body {
     font-size: 27px;
     background: none;
     border: thin solid white;
-    border-radius: 27px;
+    /*border-radius: 27px;*/
     padding: 15px;
     grid-template-columns: auto auto;
     grid-gap: 15px;
@@ -34,26 +34,16 @@ html, body {
     transition: all ease 0.2s;
 }
 
-.link:hover::before {
-    content: "";
+.link:hover {
     border: thin solid transparent;
-    background: linear-gradient(to bottom right,
+    border-image: linear-gradient(to bottom right,
      rgba(184, 39, 252) 0%,
      rgba(44, 144, 252) 25%,
      rgba(184, 253, 51) 50%,
      rgba(254, 200, 55) 75%,
      rgba(253, 24, 146) 100%
     );
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: xor;
-    -ms-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
-    -ms-mask-composite: xor;
-    -moz-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
-    -moz-mask-composite: xor;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
-    -webkit-mask-composite: xor;
-    -o-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
-    -o-mask-composite: xor;
+    border-image-slice: 1;
 }
 
 .site {
