@@ -45,15 +45,15 @@ html, body {
      rgba(253, 24, 146) 100%
     );
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
+    mask-composite: xor;
     -ms-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
-    -ms-mask-composite: exclude;
+    -ms-mask-composite: xor;
     -moz-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
-    -moz-mask-composite: exclude;
+    -moz-mask-composite: xor;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
-    -webkit-mask-composite: exclude;
+    -webkit-mask-composite: xor;
     -o-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
-    -o-mask-composite: exclude;
+    -o-mask-composite: xor;
 }
 
 .site {
