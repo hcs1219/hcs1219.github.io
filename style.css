@@ -30,20 +30,30 @@ html, body {
     padding: 15px;
     grid-template-columns: auto auto;
     grid-gap: 15px;
-    margin: 20px;
+    margin: 15px;
     transition: all ease 0.2s;
 }
 
-.link:hover {
+.link::before:hover {
+    content: "";
     border: thin solid transparent;
-    background: white padding-box,
-     linear-gradient(to bottom right,
+    background: linear-gradient(to bottom right,
      rgba(184, 39, 252) 0%,
      rgba(44, 144, 252) 25%,
      rgba(184, 253, 51) 50%,
      rgba(254, 200, 55) 75%,
      rgba(253, 24, 146) 100%
-    ) border-box;
+    );
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -ms-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
+    -ms-mask-composite: exclude;
+    -moz-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
+    -moz-mask-composite: exclude;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
+    -webkit-mask-composite: exclude;
+    -o-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);;
+    -o-mask-composite: exclude;
 }
 
 .site {
