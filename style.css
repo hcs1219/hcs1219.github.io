@@ -38,11 +38,11 @@ html, body {
     border: thin solid transparent;
     background: none padding-box,
      linear-gradient(to bottom right,
-     #b827fc 0%,
-     #2c90fc 25%,
-     #b8fd33 50%,
-     #fec837 75%,
-     #fd1892 100%
+     rgba(184, 39, 252) 0%,
+     rgba(44, 144, 252) 25%,
+     rgba(184, 253, 51) 50%,
+     rgba(254, 200, 55) 75%,
+     rgba(253, 24, 146) 100%
     ) border-box;
 }
 
