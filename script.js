@@ -26,5 +26,5 @@ for (let i = 0; i < links.length; i ++) {
             ${colors[2]} 50%,
             ${colors[3]} 75%,
             ${colors[4]} 100%`;
-        };
+        });
 };
