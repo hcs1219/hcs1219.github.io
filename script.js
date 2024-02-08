@@ -17,13 +17,11 @@ document.querySelectorAll('.link').addEventListener('mouseover', event => {
         ci--;
         [colors[ci], colors[ri]] = [colors[ri], colors[ci]];
     };
-    console.log(colors);
     
-    /*border-image: linear-gradient(to bottom right,
-        rgba(184, 39, 252) 0%,
-        rgba(44, 144, 252) 25%,
-        rgba(184, 253, 51) 50%,
-        rgba(254, 200, 55) 75%,
-        rgba(253, 24, 146) 100%
-       );*/
+    event.target.style['border-image'] = `linear-gradient(to bottom right,
+        ${colors[0]} 0%,
+        ${colors[1]} 25%,
+        ${colors[2]} 50%,
+        ${colors[3]} 75%,
+        ${colors[4]} 100%`;
 });
