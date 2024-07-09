@@ -25,8 +25,8 @@ html, body {
     text-decoration: none;
     font-size: 27px;
     background: none;
-    border: thin solid white;
-    /*border-radius: 27px;*/
+    border: thin solid grey;
+    border-radius: 27px;
     padding: 15px;
     grid-template-columns: auto auto;
     grid-gap: 15px;
@@ -35,14 +35,14 @@ html, body {
 }
 
 .link:hover {
-    border: thin solid transparent;
-    border-image: linear-gradient(to bottom right,
+    border: thin solid white;
+    /*border-image: linear-gradient(to bottom right,
      rgba(184, 39, 252) 0%,
      rgba(44, 144, 252) 25%,
      rgba(184, 253, 51) 50%,
      rgba(254, 200, 55) 75%,
      rgba(253, 24, 146) 100%
-    );
+    );*/
     border-image-slice: 1;
 }
 
