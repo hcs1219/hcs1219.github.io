@@ -105,7 +105,7 @@ html, body {
     -o-background-clip: text;
     -o-text-fill-color: transparent;
     font-family: "Fredoka", sans-serif;
-    margin-right: 20px;
+    margin-right: auto;
 }
 
 [class^="icon-"] {
