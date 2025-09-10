@@ -13,7 +13,7 @@ html, body {
 }
 
 .pfp {
-    background-image: url("src/pfp-bg.png");
+    background-image: url("src/icon-blur-background.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -51,7 +51,7 @@ html, body {
 }
 
 .icon:hover {
-    transform: scale(1.08);
+    transform: scale(1.09);
 }
 
 .content {
