@@ -105,7 +105,7 @@ html, body {
     -o-background-clip: text;
     -o-text-fill-color: transparent;
     font-family: "Fredoka", sans-serif;
-    margin-right: auto;
+    margin-right: inherit;
 }
 
 [class^="icon-"] {
@@ -133,4 +133,5 @@ html, body {
     .link {
         font-size: 22px;
     }
+
 }
