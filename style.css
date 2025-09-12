@@ -99,7 +99,7 @@ html, body {
     -o-background-clip: text;
     -o-text-fill-color: transparent;
     font-family: "Fredoka", sans-serif;
-    margin: 0 inherit;
+    margin-right: inherit;
 }
 
 [class^="icon-"] {
@@ -122,6 +122,7 @@ html, body {
         background-position: 50% 100%;
     }
 }
+
 
 
 
