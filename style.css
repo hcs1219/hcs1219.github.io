@@ -46,12 +46,12 @@ html, body {
     height: 30px;
     background: 50% 50% no-repeat;
     background-size: 100%;
-    border: thin solid transparent;
+    border-bottom: thin solid transparent;
     margin-left: 20px;
 }
 
 .icon:hover {
-    border: thin solid white;
+    border-bottom: thin solid white;
 }
 
 .content {
@@ -129,5 +129,6 @@ html, body {
         background-position: 50% 100%;
     }
 }
+
 
 
