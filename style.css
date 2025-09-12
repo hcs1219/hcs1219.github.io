@@ -52,6 +52,7 @@ html, body {
 
 .icon:hover {
     transform: scale(1.08);
+    backface-visibility: hidden;
 }
 
 .content {
@@ -78,6 +79,7 @@ html, body {
     grid-gap: 15px;
     margin: 17px;
     transition: all ease 0.2s;
+    align-items: center;
 }
 
 .link:hover {
@@ -128,3 +130,4 @@ html, body {
         background-position: 50% 100%;
     }
 }
+
