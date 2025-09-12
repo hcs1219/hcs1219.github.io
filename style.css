@@ -46,13 +46,12 @@ html, body {
     height: 30px;
     background: 50% 50% no-repeat;
     background-size: 100%;
-    border-radius: 20%;
+    border: thin solid transparent;
     margin-left: 20px;
 }
 
 .icon:hover {
-    transform: scale(1.08);
-    backface-visibility: hidden;
+    border: thin solid white;
 }
 
 .content {
@@ -130,4 +129,5 @@ html, body {
         background-position: 50% 100%;
     }
 }
+
 
