@@ -13,7 +13,7 @@ html, body {
 }
 
 .pfp {
-    background-image: url("src/icon-blur-background.png");
+    background-image: url("src/avatar/icon-blur-background.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
