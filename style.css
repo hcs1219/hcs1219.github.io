@@ -51,7 +51,7 @@ html, body {
 }
 
 .icon:hover {
-    border-bottom: thin solid white;
+    /*border-bottom: thin solid white;*/
 }
 
 .links {
