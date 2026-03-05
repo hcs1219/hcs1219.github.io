@@ -25,65 +25,54 @@
     
     <div class="hero-container">
       <div class="hero-content">
-        <div class="pfp-wrapper scroll-reveal" data-reveal="scale">
-          <div class="pfp"></div>
-        </div>
-        <p class="name scroll-reveal" data-reveal="fade-up">HCS</p>
-        
-        <div class="role-container scroll-reveal" data-reveal="fade-up">
-          <span class="role-prefix">I am a</span>
-          <div class="role-slider">
-            <div class="role-track">
-              <span class="role">Developer</span>
-              <span class="role">Designer</span>
-              <span class="role">Creator</span>
-              <span class="role">Engineer</span>
-              <span class="role">Developer</span>
+        <div class="profile-card scroll-reveal" data-reveal="scale">
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <div class="pfp"></div>
+            <p class="name">HCS</p>
+            
+            <div class="role-container">
+              <span class="role-prefix">Creative</span>
+              <div class="role-slider">
+                <div class="role-track">
+                  <span class="role">Developer</span>
+                  <span class="role">Designer</span>
+                  <span class="role">Engineer</span>
+                  <span class="role">Creator</span>
+                  <span class="role">Developer</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="icons">
+              <a class="icon" href="https://www.instagram.com/hcskaiask" style="background-image:url('src/icons/instagram.svg');" target="_blank"></a>
+              <a class="icon" href="https://wa.me/+85266390096" style="background-image:url('src/icons/whatsapp.svg');" target="_blank"></a>
+              <a class="icon" href="https://discord.com/users/804712098625486848" style="background-image:url('src/icons/discord.svg');" target="_blank"></a>
+              <a class="icon" href="mailto:hcskaiask@gmail.com" style="background-image:url('src/icons/mail.svg');" target="_blank"></a>
             </div>
           </div>
-        </div>
-        
-        <div class="icons scroll-reveal" data-reveal="stagger">
-          <a class="icon" href="https://www.instagram.com/hcskaiask" style="background-image:url('src/icons/instagram.svg');" target="_blank"></a>
-          <a class="icon" href="https://wa.me/+85266390096" style="background-image:url('src/icons/whatsapp.svg');" target="_blank"></a>
-          <a class="icon" href="https://discord.com/users/804712098625486848" style="background-image:url('src/icons/discord.svg');" target="_blank"></a>
-          <a class="icon" href="mailto:hcskaiask@gmail.com" style="background-image:url('src/icons/mail.svg');" target="_blank"></a>
         </div>
       </div>
     </div>
 
     <div class="links-container">
       <div class="links">
-        <a class="link liquid-glass scroll-reveal" data-reveal="slide-left" href="https://open.spotify.com/user/31c72hsyvyvywohccj5g35hmqm54" target="_blank">
-          <div class="liquid-glass-bg"></div>
-          <div class="liquid-glass-blur"></div>
-          <div class="link-content">
-            <div class="icon-spotify" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg');"></div>
-            <span class="site">Spotify</span>
-          </div>
+        <a class="link scroll-reveal" data-reveal="slide-up" href="https://open.spotify.com/user/31c72hsyvyvywohccj5g35hmqm54" target="_blank">
+          <div class="link-icon" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg');"></div>
+          <span class="site">Spotify</span>
+          <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17L17 7M17 7H7M17 7V17"/>
+          </svg>
         </a>
-        <a class="link liquid-glass scroll-reveal" data-reveal="slide-right" href="https://github.com/hcs1219" target="_blank">
-          <div class="liquid-glass-bg"></div>
-          <div class="liquid-glass-blur"></div>
-          <div class="link-content">
-            <div class="icon-github" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg');background-color:white;border-radius:100%;"></div>
-            <span class="site">Github</span>
-          </div>
+        <a class="link scroll-reveal" data-reveal="slide-up" href="https://github.com/hcs1219" target="_blank">
+          <div class="link-icon github-icon" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg');"></div>
+          <span class="site">Github</span>
+          <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17L17 7M17 7H7M17 7V17"/>
+          </svg>
         </a>
       </div>
     </div>
-
-    <svg class="hidden-svg">
-      <defs>
-        <filter id="liquid-filter" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
-          <feTurbulence type="fractalNoise" baseFrequency="0.05 0.05" numOctaves="1" seed="1" result="turbulence"/>
-          <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise"/>
-          <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="70" xChannelSelector="R" yChannelSelector="B" result="displaced"/>
-          <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur"/>
-          <feComposite in="finalBlur" in2="finalBlur" operator="over"/>
-        </filter>
-      </defs>
-    </svg>
 
     <script>
     'use strict';
@@ -99,6 +88,7 @@
 
       const heroContent = document.querySelector('.hero-content');
       const heroContainer = document.querySelector('.hero-container');
+      const profileCard = document.querySelector('.profile-card');
       
       if (!window.matchMedia('(pointer: coarse)').matches) {
         heroContainer.addEventListener('mousemove', (e) => {
@@ -109,21 +99,26 @@
           const centerX = rect.width / 2;
           const centerY = rect.height / 2;
           
-          const rotateX = (y - centerY) / 20;
-          const rotateY = (centerX - x) / 20;
+          const rotateX = (y - centerY) / 25;
+          const rotateY = (centerX - x) / 25;
           
           heroContent.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          
+          const glowX = ((x / rect.width) - 0.5) * 100;
+          const glowY = ((y / rect.height) - 0.5) * 100;
+          document.querySelector('.card-glow').style.transform = `translate(${glowX}px, ${glowY}px)`;
         });
         
         heroContainer.addEventListener('mouseleave', () => {
           heroContent.style.transform = 'rotateX(0) rotateY(0)';
+          document.querySelector('.card-glow').style.transform = 'translate(0, 0)';
         });
       }
 
       const observerOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.15
+        threshold: 0.1
       };
 
       const observer = new IntersectionObserver((entries) => {
