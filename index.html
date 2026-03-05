@@ -65,7 +65,7 @@
         </div>
       </div>
       
-      <div class="scroll-indicator scroll-reveal" data-reveal="fade-up">
+      <div class="scroll-hint">
         <div class="mouse">
           <div class="wheel"></div>
         </div>
@@ -143,23 +143,41 @@
     <script>
     document.addEventListener('DOMContentLoaded', () => {
       const scrollProgress = document.querySelector('.scroll-progress');
+      const scrollHint = document.querySelector('.scroll-hint');
       const profileCard = document.querySelector('.profile-card');
       const cardGlow = document.querySelector('.card-glow');
+      let lastScrollY = 0;
+      let ticking = false;
       
-      window.addEventListener('scroll', () => {
+      function updateScroll() {
         const scrolled = window.scrollY;
         const max = document.documentElement.scrollHeight - window.innerHeight;
-        scrollProgress.style.width = (scrolled / max * 100) + '%';
+        const progress = (scrolled / max) * 100;
+        scrollProgress.style.width = progress + '%';
         
-        const parallax = scrolled * 0.3;
-        profileCard.style.transform = `translateY(${parallax}px)`;
-      });
+        if (scrolled > 100) {
+          scrollHint.style.opacity = '0';
+          scrollHint.style.pointerEvents = 'none';
+        } else {
+          scrollHint.style.opacity = '1';
+          scrollHint.style.pointerEvents = 'auto';
+        }
+        
+        ticking = false;
+      }
+      
+      window.addEventListener('scroll', () => {
+        lastScrollY = window.scrollY;
+        if (!ticking) {
+          window.requestAnimationFrame(updateScroll);
+          ticking = true;
+        }
+      }, { passive: true });
 
       document.addEventListener('mousemove', (e) => {
         const rect = profileCard.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
         cardGlow.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`;
       });
 
