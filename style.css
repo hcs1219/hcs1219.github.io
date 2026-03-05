@@ -18,25 +18,26 @@ body {
 }
 
 /* Progress bar */
-.scroll-progress {
+.progress-bar {
   position: fixed;
   top: 0;
   left: 0;
   height: 2px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  z-index: 1000;
+  background: #fff;
+  z-index: 9999;
   width: 0%;
+  opacity: 0.8;
 }
 
-/* Apple-style snap scrolling */
-.snap-container {
+/* Main container with snap */
+.main {
   height: 100vh;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
 }
 
-.snap-section {
+/* Sections */
+.section {
   height: 100vh;
   width: 100%;
   scroll-snap-align: start;
@@ -45,306 +46,248 @@ body {
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transform: scale(0.95);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(20px);
+  transition: all 0.6s ease;
 }
 
-.snap-section.in-view {
+.section.visible {
   opacity: 1;
-  transform: scale(1);
+  transform: translateY(0);
 }
 
-.section-content {
+.content {
   width: 100%;
-  max-width: 480px;
-  padding: 0 40px;
+  max-width: 400px;
+  padding: 0 32px;
   text-align: center;
 }
 
 /* Hero */
 .hero {
-  background: radial-gradient(ellipse at center, #1a1a2e 0%, #000 70%);
+  background: #000;
 }
 
-.profile-card {
+.card {
   display: inline-block;
 }
 
-.avatar-box {
+.avatar-wrap {
   position: relative;
-  width: 160px;
-  height: 160px;
-  margin: 0 auto 32px;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 28px;
 }
 
-.avatar-ring {
+.avatar-glow {
   position: absolute;
-  inset: -8px;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.4), rgba(118, 75, 162, 0.4));
+  inset: -6px;
+  background: rgba(100, 100, 255, 0.3);
   border-radius: 50%;
   filter: blur(16px);
-  opacity: 0.6;
-  animation: pulse 3s ease-in-out infinite;
+  animation: pulse 3s ease infinite;
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.05); }
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
 }
 
 .avatar {
-  position: relative;
   width: 100%;
   height: 100%;
   background-image: url("src/avatar/icon-blur-background.png");
   background-size: cover;
   background-position: center;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255,255,255,0.1);
 }
 
 .name {
-  font-size: 48px;
+  font-size: 42px;
   font-weight: 700;
-  letter-spacing: 8px;
-  margin-bottom: 20px;
-  background: linear-gradient(135deg, #fff 0%, #888 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: 6px;
+  margin-bottom: 16px;
+  color: #fff;
 }
 
-/* Role - fixed animation */
-.role-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 18px;
-  margin-bottom: 40px;
-  color: rgba(255, 255, 255, 0.5);
+/* Role - fixed */
+.role {
+  font-size: 17px;
+  margin-bottom: 32px;
+  color: rgba(255,255,255,0.5);
 }
 
-.role-text {
-  font-weight: 400;
+.role .static {
+  margin-right: 6px;
 }
 
-.role-slider {
-  position: relative;
-  height: 28px;
-  overflow: hidden;
-  min-width: 180px;
+.role .changing {
+  color: #fff;
+  font-weight: 500;
+  transition: opacity 0.3s ease;
 }
 
-.role-track {
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-}
-
-.role-track span {
-  height: 28px;
-  line-height: 28px;
-  font-weight: 600;
-  color: #667eea;
-  white-space: nowrap;
-}
-
-/* Socials */
+/* Social buttons */
 .socials {
   display: flex;
   gap: 12px;
   justify-content: center;
 }
 
-.social-btn {
-  width: 48px;
-  height: 48px;
+.btn {
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  transition: all 0.2s ease;
 }
 
-.social-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-3px);
+.btn:hover {
+  background: rgba(255,255,255,0.1);
+  transform: scale(1.05);
 }
 
-.social-btn img {
-  width: 20px;
-  height: 20px;
-  opacity: 0.7;
+.btn img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
 }
 
-.social-btn:hover img {
-  opacity: 1;
-}
-
-/* Connect */
-.connect {
+/* Links section */
+.links {
   background: #000;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-.connect-title {
-  font-size: 36px;
+.title {
+  font-size: 32px;
   font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-bottom: 48px;
-  background: linear-gradient(135deg, #fff 0%, #888 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  margin-bottom: 40px;
+  color: #fff;
 }
 
-/* Links */
-.links-wrap {
+.list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
-.link-card {
+.item {
   position: relative;
   display: block;
   text-decoration: none;
   color: inherit;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(16px);
   transition: all 0.5s ease;
 }
 
-.link-card.show {
+.item.show {
   opacity: 1;
   transform: translateY(0);
 }
 
-.link-glass {
+.glass {
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
   backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
-.link-card:hover .link-glass {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.12);
-  transform: scale(1.02);
+.item:hover .glass {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.1);
 }
 
-.link-content {
+.body {
   position: relative;
   z-index: 2;
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 24px;
+  padding: 20px;
 }
 
-.link-icon {
-  width: 48px;
-  height: 48px;
+.icon {
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 10px;
   flex-shrink: 0;
 }
 
-.link-icon.spotify {
+.icon.spotify {
   background: #1db954;
   color: #000;
 }
 
-.link-icon.github {
+.icon.github {
   background: #fff;
   color: #000;
 }
 
-.link-icon svg {
-  width: 24px;
-  height: 24px;
+.icon svg {
+  width: 22px;
+  height: 22px;
 }
 
-.link-name {
+.body span {
   flex: 1;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
   text-align: left;
 }
 
-.link-arrow {
-  color: rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
+.arrow {
+  color: rgba(255,255,255,0.3);
+  transition: all 0.2s ease;
 }
 
-.link-card:hover .link-arrow {
-  color: rgba(255, 255, 255, 0.8);
-  transform: translate(4px, -4px);
+.item:hover .arrow {
+  color: #fff;
+  transform: translate(3px, -3px);
 }
 
 /* Footer */
 .footer {
   text-align: center;
-  padding: 40px;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 13px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 32px;
+  color: rgba(255,255,255,0.3);
+  font-size: 12px;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .section-content {
+/* Mobile */
+@media (max-width: 480px) {
+  .content {
     padding: 0 24px;
   }
   
-  .avatar-box {
-    width: 130px;
-    height: 130px;
+  .avatar-wrap {
+    width: 120px;
+    height: 120px;
   }
   
   .name {
     font-size: 36px;
-    letter-spacing: 6px;
   }
   
-  .role-box {
+  .role {
     font-size: 15px;
   }
   
-  .role-slider {
-    min-width: 160px;
-  }
-  
-  .connect-title {
-    font-size: 28px;
-  }
-  
-  .link-content {
-    padding: 20px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .snap-section, .link-card {
-    transition: none;
-    opacity: 1;
-    transform: none;
-  }
-  
-  .role-track {
-    transition: none;
-  }
-  
-  .avatar-ring {
-    animation: none;
+  .btn {
+    width: 48px;
+    height: 48px;
   }
 }
