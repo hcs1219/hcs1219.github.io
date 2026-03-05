@@ -44,6 +44,16 @@ html, body {
 .hero-content {
     transform-style: preserve-3d;
     transition: transform 0.1s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pfp-wrapper {
+    position: relative;
+    width: 170px;
+    height: 170px;
+    margin: 25px auto 0;
 }
 
 .pfp {
@@ -51,9 +61,8 @@ html, body {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    width: 170px;
-    height: 170px;
-    margin: 25px auto 0;
+    width: 100%;
+    height: 100%;
     border: thin solid white;
     border-radius: 100%;
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
@@ -72,7 +81,69 @@ html, body {
     text-shadow: 0 0 12px white;
     letter-spacing: 8px;
     text-align: center;
-    margin: 20px 0;
+    margin: 20px 0 10px;
+}
+
+.role-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    height: 30px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.role-prefix {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 300;
+}
+
+.role-slider {
+    position: relative;
+    height: 30px;
+    overflow: hidden;
+}
+
+.role-track {
+    display: flex;
+    flex-direction: column;
+    animation: slideRoles 10s cubic-bezier(0.5, 0, 0, 1) infinite;
+}
+
+.role {
+    height: 30px;
+    line-height: 30px;
+    background: linear-gradient(135deg,
+     rgba(39, 140, 235, 1) 0%,
+     rgba(12, 209, 197, 1) 25%,
+     rgba(159, 90, 225, 1) 50%,
+     rgba(238, 69, 154, 1) 75%,
+     rgba(255, 82, 82, 1) 100%
+    );
+    background-size: 200% 200%;
+    animation: gradientShift 3s ease infinite;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@keyframes slideRoles {
+    0%, 18% { transform: translateY(0); }
+    20%, 38% { transform: translateY(-30px); }
+    40%, 58% { transform: translateY(-60px); }
+    60%, 78% { transform: translateY(-90px); }
+    80%, 98% { transform: translateY(-120px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .icons {
@@ -112,8 +183,6 @@ html, body {
     display: grid;
     text-decoration: none;
     font-size: clamp(1.375rem, 1.2411rem + 0.8403vw, 1.6875rem);
-    background: rgba(255, 255, 255, 0.03);
-    border: thin solid grey;
     border-radius: 27px;
     padding: 15px;
     grid-template-columns: auto auto;
@@ -121,30 +190,82 @@ html, body {
     margin: 17px;
     transition: all 0.3s ease;
     align-items: center;
-    backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
 }
 
-.link::before {
-    content: '';
+.link-content {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 15px;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+}
+
+.liquid-glass {
+    background: transparent;
+    border: none;
+    transform-style: preserve-3d;
+}
+
+.liquid-glass-bg {
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    transition: left 0.5s ease;
+    border-radius: 27px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 0 6px rgba(0,0,0,0.03),
+        0 2px 6px rgba(0,0,0,0.08),
+        inset 3px 3px 0.5px -3px rgba(0,0,0,0.9),
+        inset -3px -3px 0.5px -3px rgba(0,0,0,0.85),
+        inset 1px 1px 1px -0.5px rgba(0,0,0,0.6),
+        inset -1px -1px 1px -0.5px rgba(0,0,0,0.6),
+        inset 0 0 6px 6px rgba(0,0,0,0.12),
+        inset 0 0 2px 2px rgba(0,0,0,0.06),
+        0 0 12px rgba(255,255,255,0.15);
+    transition: all 0.3s ease;
+    z-index: 1;
 }
 
-.link:hover::before {
-    left: 100%;
+.liquid-glass-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 27px;
+    backdrop-filter: url("#liquid-filter");
+    z-index: 2;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
 }
 
-.link:hover {
-    border: thin solid white;
+.liquid-glass:hover .liquid-glass-bg {
+    box-shadow: 
+        0 0 8px rgba(0,0,0,0.03),
+        0 4px 12px rgba(0,0,0,0.12),
+        inset 3px 3px 0.5px -3.5px rgba(255,255,255,0.09),
+        inset -3px -3px 0.5px -3.5px rgba(255,255,255,0.85),
+        inset 1px 1px 1px -0.5px rgba(255,255,255,0.6),
+        inset -1px -1px 1px -0.5px rgba(255,255,255,0.6),
+        inset 0 0 6px 6px rgba(255,255,255,0.12),
+        inset 0 0 2px 2px rgba(255,255,255,0.06),
+        0 0 20px rgba(255,255,255,0.25);
     background: rgba(255, 255, 255, 0.08);
-    transform: translateX(5px);
+    transform: scale(1.02);
+}
+
+.liquid-glass:hover .liquid-glass-blur {
+    opacity: 0.8;
+}
+
+.liquid-glass:hover {
+    transform: translateY(-2px);
 }
 
 .site {
@@ -180,26 +301,11 @@ html, body {
     border-radius: 20%;
 }
 
-.extra-section {
-    max-width: 550px;
-    margin: 100px auto;
-    padding: 40px;
-    text-align: center;
-    border: thin solid rgba(255,255,255,0.1);
-    border-radius: 20px;
-    background: rgba(255,255,255,0.02);
-}
-
-.extra-section h2 {
-    font-family: "Montserrat", sans-serif;
-    font-size: 24px;
-    margin-bottom: 10px;
-    letter-spacing: 4px;
-}
-
-.extra-section p {
-    font-family: "Montserrat", sans-serif;
-    opacity: 0.7;
+.hidden-svg {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
 }
 
 @keyframes gradient {
@@ -266,5 +372,14 @@ html, body {
     .scroll-reveal[data-reveal="stagger"] .icon {
         opacity: 1;
         transform: none;
+    }
+    .role-track {
+        animation: none;
+    }
+    .role-track .role {
+        display: none;
+    }
+    .role-track .role:first-child {
+        display: block;
     }
 }
