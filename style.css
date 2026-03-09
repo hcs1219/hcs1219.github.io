@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
 * {
   margin: 0;
@@ -46,14 +46,17 @@ body {
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.section.hidden {
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(30px) scale(0.98);
 }
 
 .section.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .content {
@@ -196,6 +199,9 @@ body {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 20px;
+  text-decoration: none;
   opacity: 0;
   transform: translateY(20px) scale(0.9);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -215,20 +221,9 @@ body {
 .social-link:hover {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
   transform: translateY(-3px) scale(1.05);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.social-link img {
-  width: 22px;
-  height: 22px;
-  opacity: 0.7;
-  transition: all 0.3s ease;
-}
-
-.social-link:hover img {
-  opacity: 1;
-  transform: scale(1.1);
 }
 
 /* Links Section */
@@ -261,14 +256,17 @@ body {
   border-radius: 18px;
   text-decoration: none;
   color: inherit;
-  opacity: 0;
-  transform: translateY(20px);
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.platform-card.hidden {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
 }
 
 .platform-card.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .platform-card:hover {
@@ -286,6 +284,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  font-size: 24px;
   transition: all 0.4s ease;
 }
 
@@ -303,16 +302,6 @@ body {
   background: linear-gradient(135deg, #ffffff 0%, #e8e8e8 100%);
   color: #000;
   box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-}
-
-.platform-icon svg {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s ease;
-}
-
-.platform-card:hover .platform-icon svg {
-  transform: scale(1.1);
 }
 
 .platform-info {
@@ -346,8 +335,7 @@ body {
 }
 
 .platform-arrow {
-  width: 20px;
-  height: 20px;
+  font-size: 18px;
   color: rgba(255, 255, 255, 0.25);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -376,6 +364,7 @@ body {
   .social-link {
     width: 48px;
     height: 48px;
+    font-size: 18px;
   }
   
   .platform-card {
@@ -385,10 +374,10 @@ body {
   .platform-icon {
     width: 44px;
     height: 44px;
+    font-size: 22px;
   }
   
-  .platform-icon svg {
-    width: 22px;
-    height: 22px;
+  .platform-arrow {
+    font-size: 16px;
   }
 }
