@@ -28,12 +28,14 @@
         <div class="content">
           <div class="profile-card">
             <div class="avatar-wrap">
+              <div class="avatar-ring"></div>
               <div class="avatar-glow"></div>
               <div class="avatar"></div>
             </div>
             
             <div class="profile-info">
               <h1 class="name">HCS</h1>
+              <div class="divider"></div>
               <p class="subtitle">Creative Developer</p>
             </div>
             
@@ -57,6 +59,10 @@
 
       <section class="section links" id="links">
         <div class="content">
+          <div class="links-header">
+            <span class="eyebrow">Links</span>
+          </div>
+          
           <div class="links-container">
             <a href="https://open.spotify.com/user/31c72hsyvyvywohccj5g35hmqm54" target="_blank" class="platform-card">
               <div class="platform-icon spotify">
@@ -64,7 +70,7 @@
               </div>
               <div class="platform-info">
                 <span class="platform-name">Spotify</span>
-                <span class="platform-desc">Music</span>
+                <span class="platform-desc">Music & Playlists</span>
               </div>
               <svg class="platform-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
             </a>
@@ -75,7 +81,7 @@
               </div>
               <div class="platform-info">
                 <span class="platform-name">GitHub</span>
-                <span class="platform-desc">Code</span>
+                <span class="platform-desc">Code & Projects</span>
               </div>
               <svg class="platform-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
             </a>
@@ -85,24 +91,24 @@
     </main>
 
     <script>
-    // Subtle reveal animations
-    const observerOptions = {
-      threshold: 0.2,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
         }
       });
-    }, observerOptions);
+    }, { threshold: 0.2 });
 
     document.querySelectorAll('.section').forEach(el => observer.observe(el));
+    
     document.querySelectorAll('.platform-card').forEach((el, i) => {
-      el.style.transitionDelay = `${i * 100}ms`;
+      el.style.transitionDelay = `${i * 120}ms`;
       observer.observe(el);
+    });
+
+    document.querySelectorAll('.social-link').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 80}ms`;
+      el.classList.add('animate-in');
     });
     </script>
   </body>
