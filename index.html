@@ -21,45 +21,64 @@
     </script>
   </head>
   <body>
-    <div class="noise"></div>
-    <div class="glow-orbs">
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
+    <canvas id="grain"></canvas>
+    <div class="cursor-glow"></div>
+    
+    <div class="ambient">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
     </div>
     
     <main class="main">
       <section class="section hero" id="hero">
         <div class="content">
-          <div class="card liquid-glass">
-            <div class="avatar-wrap">
+          <div class="card glass-panel">
+            <div class="shine"></div>
+            <div class="avatar-container" data-tilt>
               <div class="avatar-glow"></div>
+              <div class="avatar-orbit"></div>
               <div class="avatar-ring"></div>
-              <div class="avatar-shine"></div>
-              <div class="avatar"></div>
+              <div class="avatar-pulse"></div>
+              <div class="avatar">
+                <div class="avatar-inner"></div>
+              </div>
             </div>
             
             <div class="brand">
-              <h1 class="name">HCS</h1>
-              <div class="tagline">Digital Creator</div>
+              <h1 class="name" data-split>
+                <span>H</span><span>C</span><span>S</span>
+              </h1>
+              <div class="divider"></div>
+              <div class="tagline">
+                <span class="tag-text">Creative Developer</span>
+              </div>
             </div>
             
             <div class="socials">
-              <a href="https://www.instagram.com/hcskaiask" target="_blank" class="social-btn" aria-label="Instagram">
-                <div class="btn-glass"></div>
-                <img src="src/icons/instagram.svg" alt="">
+              <a href="https://www.instagram.com/hcskaiask" target="_blank" class="social-btn magnetic" aria-label="Instagram">
+                <div class="btn-bg"></div>
+                <div class="btn-content">
+                  <img src="src/icons/instagram.svg" alt="">
+                </div>
               </a>
-              <a href="https://wa.me/+85266390096" target="_blank" class="social-btn" aria-label="WhatsApp">
-                <div class="btn-glass"></div>
-                <img src="src/icons/whatsapp.svg" alt="">
+              <a href="https://wa.me/+85266390096" target="_blank" class="social-btn magnetic" aria-label="WhatsApp">
+                <div class="btn-bg"></div>
+                <div class="btn-content">
+                  <img src="src/icons/whatsapp.svg" alt="">
+                </div>
               </a>
-              <a href="https://discord.com/users/804712098625486848" target="_blank" class="social-btn" aria-label="Discord">
-                <div class="btn-glass"></div>
-                <img src="src/icons/discord.svg" alt="">
+              <a href="https://discord.com/users/804712098625486848" target="_blank" class="social-btn magnetic" aria-label="Discord">
+                <div class="btn-bg"></div>
+                <div class="btn-content">
+                  <img src="src/icons/discord.svg" alt="">
+                </div>
               </a>
-              <a href="mailto:hcskaiask@gmail.com" class="social-btn" aria-label="Email">
-                <div class="btn-glass"></div>
-                <img src="src/icons/mail.svg" alt="">
+              <a href="mailto:hcskaiask@gmail.com" class="social-btn magnetic" aria-label="Email">
+                <div class="btn-bg"></div>
+                <div class="btn-content">
+                  <img src="src/icons/mail.svg" alt="">
+                </div>
               </a>
             </div>
           </div>
@@ -68,42 +87,46 @@
 
       <section class="section links" id="links">
         <div class="content">
-          <div class="links-header">
-            <span class="section-eyebrow">Links</span>
-            <h2 class="section-title">Connect</h2>
+          <div class="section-header">
+            <span class="eyebrow" data-reveal>Connect With Me</span>
+            <h2 class="title" data-reveal>Links</h2>
           </div>
           
-          <div class="links-list">
-            <a href="https://open.spotify.com/user/31c72hsyvyvywohccj5g35hmqm54" target="_blank" class="link-item liquid-glass-hover">
-              <div class="link-glass"></div>
-              <div class="link-content">
-                <div class="link-icon spotify">
+          <div class="links-grid">
+            <a href="https://open.spotify.com/user/31c72hsyvyvywohccj5g35hmqm54" target="_blank" class="link-card magnetic" data-reveal>
+              <div class="card-bg"></div>
+              <div class="card-content">
+                <div class="card-visual spotify">
+                  <div class="visual-glow"></div>
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
                 </div>
-                <div class="link-text">
-                  <span class="link-name">Spotify</span>
-                  <span class="link-meta">Playlists & Music</span>
+                <div class="card-info">
+                  <span class="card-name">Spotify</span>
+                  <span class="card-desc">Music & Playlists</span>
+                </div>
+                <div class="card-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
                 </div>
               </div>
-              <div class="link-action">
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-              </div>
+              <div class="card-border"></div>
             </a>
 
-            <a href="https://github.com/hcs1219" target="_blank" class="link-item liquid-glass-hover">
-              <div class="link-glass"></div>
-              <div class="link-content">
-                <div class="link-icon github">
+            <a href="https://github.com/hcs1219" target="_blank" class="link-card magnetic" data-reveal>
+              <div class="card-bg"></div>
+              <div class="card-content">
+                <div class="card-visual github">
+                  <div class="visual-glow"></div>
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 </div>
-                <div class="link-text">
-                  <span class="link-name">GitHub</span>
-                  <span class="link-meta">Code & Projects</span>
+                <div class="card-info">
+                  <span class="card-name">GitHub</span>
+                  <span class="card-desc">Code & Projects</span>
+                </div>
+                <div class="card-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
                 </div>
               </div>
-              <div class="link-action">
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-              </div>
+              <div class="card-border"></div>
             </a>
           </div>
         </div>
@@ -111,7 +134,118 @@
     </main>
 
     <script>
-    // Section reveal animations
+    // Grain animation
+    const canvas = document.getElementById('grain');
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    
+    function noise() {
+      const imageData = ctx.createImageData(canvas.width, canvas.height);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const value = Math.random() * 255;
+        data[i] = value;
+        data[i + 1] = value;
+        data[i + 2] = value;
+        data[i + 3] = 15;
+      }
+      ctx.putImageData(imageData, 0, 0);
+    }
+    
+    let frame = 0;
+    function animateGrain() {
+      frame++;
+      if (frame % 3 === 0) noise();
+      requestAnimationFrame(animateGrain);
+    }
+    animateGrain();
+
+    // Cursor glow
+    const cursorGlow = document.querySelector('.cursor-glow');
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    
+    function animateCursor() {
+      currentX += (mouseX - currentX) * 0.1;
+      currentY += (mouseY - currentY) * 0.1;
+      cursorGlow.style.left = currentX + 'px';
+      cursorGlow.style.top = currentY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Magnetic effect
+    const magneticElements = document.querySelectorAll('.magnetic');
+    
+    magneticElements.forEach(el => {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        
+        el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        
+        const content = el.querySelector('.btn-content, .card-content');
+        if (content) {
+          content.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        }
+      });
+      
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = 'translate(0, 0)';
+        const content = el.querySelector('.btn-content, .card-content');
+        if (content) {
+          content.style.transform = 'translate(0, 0)';
+        }
+      });
+    });
+
+    // Avatar tilt
+    const avatarContainer = document.querySelector('.avatar-container');
+    if (avatarContainer) {
+      avatarContainer.addEventListener('mousemove', (e) => {
+        const rect = avatarContainer.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        
+        avatarContainer.style.transform = `perspective(1000px) rotateY(${x * 20}deg) rotateX(${-y * 20}deg)`;
+      });
+      
+      avatarContainer.addEventListener('mouseleave', () => {
+        avatarContainer.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
+      });
+    }
+
+    // Intersection Observer for reveals
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // Section animations
     const sections = document.querySelectorAll('.section');
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -120,41 +254,31 @@
         }
       });
     }, { threshold: 0.2 });
-    
+
     sections.forEach(section => sectionObserver.observe(section));
 
-    // Staggered link animations
-    const linkItems = document.querySelectorAll('.link-item');
-    const linkObserver = new IntersectionObserver((entries) => {
+    // Staggered card reveals
+    const cards = document.querySelectorAll('.link-card');
+    const cardObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             entry.target.classList.add('show');
-          }, index * 120);
+          }, index * 150);
         }
       });
     }, { threshold: 0.1 });
-    
-    linkItems.forEach(item => linkObserver.observe(item));
 
-    // Magnetic effect for social buttons
-    const socialBtns = document.querySelectorAll('.social-btn');
-    
-    socialBtns.forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        
-        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.1)`;
-      });
-      
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = 'translate(0, 0) scale(1)';
-      });
+    cards.forEach(card => cardObserver.observe(card));
+
+    // Name letter animation
+    const nameLetters = document.querySelectorAll('.name span');
+    nameLetters.forEach((letter, index) => {
+      letter.style.animationDelay = `${index * 0.1}s`;
+      letter.classList.add('letter-animate');
     });
 
-    // Smooth scroll behavior for internal links
+    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
