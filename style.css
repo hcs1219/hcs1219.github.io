@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
 * {
   margin: 0;
@@ -12,21 +12,29 @@ html {
 
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #000;
+  background: #050505;
   color: #fff;
   overflow-x: hidden;
 }
 
-/* Progress bar */
-.progress-bar {
+/* Ambient glow */
+.ambient-glow {
   position: fixed;
-  top: 0;
-  left: 0;
-  height: 2px;
-  background: #fff;
-  z-index: 9999;
-  width: 0%;
-  opacity: 0.8;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120vw;
+  height: 120vh;
+  background: radial-gradient(circle at 30% 20%, rgba(100, 100, 255, 0.06) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(255, 100, 200, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientShift 20s ease-in-out infinite;
+}
+
+@keyframes ambientShift {
+  0%, 100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.1); }
 }
 
 /* Main container with snap */
@@ -34,6 +42,8 @@ body {
   height: 100vh;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
+  position: relative;
+  z-index: 1;
 }
 
 /* Sections */
@@ -47,7 +57,7 @@ body {
   justify-content: center;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.6s ease;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .section.visible {
@@ -62,117 +72,190 @@ body {
   text-align: center;
 }
 
+/* Liquid Glass */
+.liquid-glass {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.liquid-glass:hover {
+  transform: translateY(-2px) translate(var(--mouse-x, 0), var(--mouse-y, 0));
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.liquid-glass-sm {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.liquid-glass-sm::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.liquid-glass-sm:hover {
+  transform: translateY(-3px) scale(1.05) translate(var(--mouse-x, 0), var(--mouse-y, 0));
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.liquid-glass-sm:hover::before {
+  opacity: 1;
+}
+
 /* Hero */
 .hero {
-  background: #000;
+  background: transparent;
 }
 
 .card {
-  display: inline-block;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
 }
 
 .avatar-wrap {
   position: relative;
   width: 140px;
   height: 140px;
-  margin: 0 auto 28px;
+  margin: 0 auto;
 }
 
 .avatar-glow {
   position: absolute;
   inset: -6px;
-  background: rgba(100, 100, 255, 0.3);
+  background: radial-gradient(circle, rgba(100, 150, 255, 0.4) 0%, transparent 70%);
   border-radius: 50%;
-  filter: blur(16px);
-  animation: pulse 3s ease infinite;
+  filter: blur(20px);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.avatar-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(100,100,255,0.4), rgba(200,100,255,0.4), rgba(100,200,255,0.4), rgba(100,100,255,0.4));
+  animation: rotate 10s linear infinite;
+  opacity: 0.6;
+}
+
+.avatar-ring::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: #050505;
+  border-radius: 50%;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.8; }
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 0.8; transform: scale(1.1); }
 }
 
 .avatar {
+  position: relative;
   width: 100%;
   height: 100%;
   background-image: url("src/avatar/icon-blur-background.png");
   background-size: cover;
   background-position: center;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .name {
-  font-size: 42px;
-  font-weight: 700;
-  letter-spacing: 6px;
-  margin-bottom: 16px;
-  color: #fff;
-}
-
-/* Role - fixed */
-.role {
-  font-size: 17px;
-  margin-bottom: 32px;
-  color: rgba(255,255,255,0.5);
-}
-
-.role .static {
-  margin-right: 6px;
-}
-
-.role .changing {
-  color: #fff;
-  font-weight: 500;
-  transition: opacity 0.3s ease;
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: 8px;
+  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-transform: uppercase;
 }
 
 /* Social buttons */
 .socials {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
 }
 
 .btn {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.05);
-  border-radius: 16px;
-  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.btn:hover {
-  background: rgba(255,255,255,0.1);
-  transform: scale(1.05);
-}
-
-.btn img {
-  width: 22px;
-  height: 22px;
-  opacity: 0.8;
+.btn svg {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Links section */
 .links {
-  background: #000;
+  background: transparent;
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .title {
-  font-size: 32px;
+  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 40px;
-  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 32px;
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .item {
@@ -180,8 +263,7 @@ body {
   display: block;
   text-decoration: none;
   color: inherit;
-  border-radius: 14px;
-  overflow: hidden;
+  padding: 4px;
   opacity: 0;
   transform: translateY(16px);
   transition: all 0.5s ease;
@@ -190,21 +272,6 @@ body {
 .item.show {
   opacity: 1;
   transform: translateY(0);
-}
-
-.glass {
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 14px;
-  backdrop-filter: blur(10px);
-  transition: all 0.2s ease;
-}
-
-.item:hover .glass {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.1);
 }
 
 .body {
@@ -217,12 +284,12 @@ body {
 }
 
 .icon {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 12px;
   flex-shrink: 0;
 }
 
@@ -237,14 +304,14 @@ body {
 }
 
 .icon svg {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
 }
 
 .body span {
   flex: 1;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 600;
   text-align: left;
 }
 
@@ -258,19 +325,14 @@ body {
   transform: translate(3px, -3px);
 }
 
-/* Footer */
-.footer {
-  text-align: center;
-  padding: 32px;
-  color: rgba(255,255,255,0.3);
-  font-size: 12px;
-  border-top: 1px solid rgba(255,255,255,0.05);
-}
-
 /* Mobile */
 @media (max-width: 480px) {
   .content {
     padding: 0 24px;
+  }
+  
+  .card {
+    padding: 40px 28px;
   }
   
   .avatar-wrap {
@@ -279,15 +341,20 @@ body {
   }
   
   .name {
-    font-size: 36px;
-  }
-  
-  .role {
-    font-size: 15px;
+    font-size: 40px;
+    letter-spacing: 6px;
   }
   
   .btn {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
+  }
+  
+  .title {
+    font-size: 13px;
+  }
+  
+  .body span {
+    font-size: 16px;
   }
 }
