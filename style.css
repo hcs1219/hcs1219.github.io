@@ -12,7 +12,8 @@ html {
 }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Yuji Boku", serif;
+  /*font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;*/
   background: #07070a;
   color: #e8e8e8;
   overflow-x: hidden;
