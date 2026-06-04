@@ -424,7 +424,7 @@
             if (speechSynthesis.onvoiceschanged !== undefined) {
                 speechSynthesis.onvoiceschanged = initVoices;
             }
-            setTimeout(initVoices, 500);
+            setTimeout(initVoices, 1500);
             
             document.addEventListener('paste', (e) => {
                 const items = e.clipboardData.items;
@@ -1070,7 +1070,7 @@
                     gapTimeout = setTimeout(() => {
                         isInGap = false;
                         if (isPlaying && !isPaused) playStep();
-                    }, 500); // 0.5 second gap between words
+                    }, 800);
                 }
             };
             
@@ -1080,7 +1080,7 @@
                     gapTimeout = setTimeout(() => {
                         isInGap = false;
                         if (isPlaying && !isPaused) playStep();
-                    }, 500);
+                    }, 800);
                 }
             };
             
