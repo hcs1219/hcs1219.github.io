@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#3730a3">
-    <title>StudySnap — 詞語提取與聽寫</title>
+    <title>TTS — 詞語朗讀</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -134,11 +134,11 @@
         <div class="max-w-2xl mx-auto px-5 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-stone-700 rounded-lg flex items-center justify-center border border-stone-600">
-                    <i class="fas fa-book-open text-sm text-stone-300"></i>
+                    <i class="fas fa-volume-high text-sm text-stone-300"></i>
                 </div>
                 <div>
-                    <h1 class="text-base font-bold tracking-tight leading-none font-serif">StudySnap</h1>
-                    <p class="text-[11px] text-stone-400 mt-0.5 tracking-wide">詞語提取 · 聽寫練習</p>
+                    <h1 class="text-base font-bold tracking-tight leading-none font-serif">TTS</h1>
+                    <p class="text-[11px] text-stone-400 mt-0.5 tracking-wide">詞語朗讀 · 聽寫練習</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
@@ -163,10 +163,10 @@
                 <div>
                     <div class="flex justify-between mb-2">
                         <label class="text-sm font-semibold text-ink-700">語速</label>
-                        <span id="speedVal" class="text-sm font-mono text-accent-600 bg-accent-50 px-2 rounded">0.8x</span>
+                        <span id="speedVal" class="text-sm font-mono text-accent-600 bg-accent-50 px-2 rounded">1.0x</span>
                     </div>
-                    <input type="range" min="0.3" max="2.0" step="0.1" value="0.8" id="rateSlider" oninput="updateRate(this.value)" class="w-full">
-                    <div class="flex justify-between text-[10px] text-ink-500 mt-1"><span>0.3x</span><span>0.8x 正常</span><span>2.0x</span></div>
+                    <input type="range" min="0.1" max="3.0" step="0.1" value="1.0" id="rateSlider" oninput="updateRate(this.value)" class="w-full">
+                    <div class="flex justify-between text-[10px] text-ink-500 mt-1"><span>0.1x</span><span>1.0x 正常</span><span>3.0x</span></div>
                 </div>
                 
                 <div>
@@ -181,13 +181,13 @@
                 <div>
                     <label class="text-sm font-semibold text-ink-700 block mb-2">朗讀聲音</label>
                     <select id="voiceSelect" onchange="saveVoicePref()" class="w-full rounded-lg border border-paper-300 p-2.5 text-sm focus:ring-2 focus:ring-accent-600 focus:border-transparent bg-white"></select>
-                    <p class="text-[11px] text-ink-500 mt-1.5">英文預設使用英式發音（en-GB），中文使用普通話（zh-CN）</p>
+                    <p class="text-[11px] text-ink-500 mt-1.5">英文預設英式發音（en-GB），中文預設普通話（zh-CN）</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <main class="max-w-2xl mx-auto px-5 py-6 space-y-5 pb-28">
+    <main class="max-w-2xl mx-auto px-5 py-6 space-y-5 pb-32">
 
         <!-- INPUT -->
         <section id="inputSection" class="card rounded-xl overflow-hidden">
@@ -228,7 +228,7 @@
                 <textarea id="directText" rows="4" class="w-full rounded-lg border border-paper-300 p-3.5 text-sm focus:ring-2 focus:ring-accent-600 focus:border-transparent resize-none bg-paper-50" placeholder="貼上詞彙（每行一個），或將截圖貼到頁面上..."></textarea>
                 
                 <button onclick="processDirectText()" class="w-full btn-primary font-bold py-3 rounded-lg flex items-center justify-center gap-2 shadow-md shadow-indigo-100">
-                    <i class="fas fa-wand-magic-sparkles"></i>生成學習卡
+                    <i class="fas fa-wand-magic-sparkles"></i>生成詞卡
                 </button>
                 <p class="text-[11px] text-ink-500 text-center">
                     <i class="fas fa-shield-halved mr-1"></i>文件僅於本地處理，不上傳至伺服器
@@ -255,19 +255,16 @@
             </div>
             
             <div class="flex items-center justify-between px-1">
-                <div>
-                    <h2 class="font-bold text-ink-800 flex items-center gap-2 text-lg font-serif">
-                        <i class="fas fa-layer-group text-accent-600"></i>學習卡
-                        <span id="cardCount" class="text-xs bg-accent-50 text-accent-700 px-2 py-0.5 rounded font-bold border border-accent-100">0</span>
-                    </h2>
-                    <p id="subjectBadge" class="text-[11px] text-ink-500 mt-1 hidden"></p>
+                <div class="flex items-center gap-2">
+                    <span id="cardCount" class="text-xs bg-accent-50 text-accent-700 px-2 py-0.5 rounded font-bold border border-accent-100">0</span>
+                    <p id="subjectBadge" class="text-[11px] text-ink-500 hidden"></p>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="playShuffle()" class="text-xs bg-white border border-paper-300 px-3 py-2 rounded-lg hover:bg-paper-50 transition flex items-center gap-2 text-ink-700 font-bold shadow-sm" title="隨機聽寫">
-                        <i class="fas fa-shuffle text-accent-600 text-[10px]"></i>隨機聽寫
+                        <i class="fas fa-shuffle text-accent-600 text-[10px]"></i>隨機
                     </button>
                     <button onclick="playAll()" class="text-xs bg-white border border-paper-300 px-3 py-2 rounded-lg hover:bg-paper-50 transition flex items-center gap-2 text-ink-700 font-bold shadow-sm">
-                        <i class="fas fa-play text-accent-600 text-[10px]"></i>順序播放
+                        <i class="fas fa-play text-accent-600 text-[10px]"></i>順序
                     </button>
                 </div>
             </div>
@@ -278,51 +275,79 @@
         <!-- EMPTY STATE -->
         <section id="emptyState" class="text-center py-20 text-paper-300">
             <div class="w-20 h-20 bg-paper-100 rounded-full flex items-center justify-center mx-auto mb-5 border border-paper-200">
-                <i class="fas fa-book-open text-3xl text-paper-300"></i>
+                <i class="fas fa-volume-high text-3xl text-paper-300"></i>
             </div>
-            <p class="text-base font-bold text-ink-500 font-serif">拍攝文件以開始學習</p>
+            <p class="text-base font-bold text-ink-500 font-serif">拍攝文件以開始朗讀</p>
             <p class="text-xs mt-2 text-ink-400 max-w-xs mx-auto leading-relaxed">自動過濾標題與格式<br>專注提取詞彙，支援英文與繁體中文</p>
         </section>
 
     </main>
 
     <!-- Player -->
-    <div id="miniPlayer" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 hidden">
-        <div class="bg-ink-800 text-stone-200 rounded-2xl shadow-2xl border border-stone-700 overflow-hidden min-w-[300px]">
+    <div id="miniPlayer" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 hidden w-[calc(100%-2.5rem)] max-w-[360px]">
+        <div class="bg-ink-800 text-stone-200 rounded-2xl shadow-2xl border border-stone-700 overflow-hidden">
             <div class="h-1 bg-stone-700 w-full">
                 <div id="playerBar" class="h-full bg-accent-500 transition-all duration-300" style="width: 0%"></div>
             </div>
-            <div class="px-5 py-3 flex items-center gap-3">
-                <div class="flex items-center gap-2.5 flex-1 min-w-0">
-                    <div class="w-2 h-2 rounded-full bg-accent-500 animate-pulse flex-shrink-0"></div>
-                    <div class="min-w-0">
-                        <span id="playerText" class="text-xs font-medium block truncate">Playing...</span>
-                        <span id="playerProgress" class="text-[10px] text-stone-400 block">0 / 0</span>
+            <div class="px-4 py-3">
+                <div class="mb-2 min-h-[2.5rem] flex items-center">
+                    <p id="playerText" class="text-sm font-medium text-stone-100 leading-snug break-words w-full">Playing...</p>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span id="playerProgress" class="text-[10px] text-stone-400 font-mono">0 / 0</span>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="playPrev()" class="w-8 h-8 rounded-full bg-stone-700 hover:bg-stone-600 flex items-center justify-center text-stone-300 transition">
+                            <i class="fas fa-backward-step text-[10px]"></i>
+                        </button>
+                        <button onclick="togglePause()" id="pauseBtn" class="w-9 h-9 rounded-full bg-accent-600 hover:bg-accent-700 flex items-center justify-center text-white transition">
+                            <i class="fas fa-pause text-xs"></i>
+                        </button>
+                        <button onclick="playNextManual()" class="w-8 h-8 rounded-full bg-stone-700 hover:bg-stone-600 flex items-center justify-center text-stone-300 transition">
+                            <i class="fas fa-forward-step text-[10px]"></i>
+                        </button>
+                        <button onclick="stopPlayback()" class="w-8 h-8 rounded-full bg-stone-700 hover:bg-stone-600 flex items-center justify-center text-stone-400 transition ml-1">
+                            <i class="fas fa-stop text-[10px]"></i>
+                        </button>
                     </div>
                 </div>
-                <button onclick="togglePause()" id="pauseBtn" class="w-8 h-8 rounded-full bg-stone-700 hover:bg-stone-600 flex items-center justify-center text-stone-300 transition flex-shrink-0">
-                    <i class="fas fa-pause text-[10px]"></i>
-                </button>
-                <button onclick="stopPlayback()" class="w-8 h-8 rounded-full bg-stone-700 hover:bg-stone-600 flex items-center justify-center text-stone-300 transition flex-shrink-0">
-                    <i class="fas fa-stop text-[10px]"></i>
-                </button>
             </div>
         </div>
     </div>
 
     <script>
+        // ==================== CURATED VOICE LIST ====================
+        const CURATED_VOICES = [
+            { name: 'Daniel', lang: 'en-GB', gender: 'male', uri: 'com.apple.speech.synthesis.voice.daniel' },
+            { name: 'Kate', lang: 'en-GB', gender: 'female', uri: 'com.apple.speech.synthesis.voice.kate' },
+            { name: 'Serena', lang: 'en-GB', gender: 'female', uri: 'com.apple.speech.synthesis.voice.serena' },
+            { name: 'Google UK English Male', lang: 'en-GB', gender: 'male', uri: 'Google UK English Male' },
+            { name: 'Google UK English Female', lang: 'en-GB', gender: 'female', uri: 'Google UK English Female' },
+            { name: 'Microsoft George - English (United Kingdom)', lang: 'en-GB', gender: 'male', uri: 'Microsoft George - English (United Kingdom)' },
+            { name: 'Microsoft Hazel - English (United Kingdom)', lang: 'en-GB', gender: 'female', uri: 'Microsoft Hazel - English (United Kingdom)' },
+            { name: 'Microsoft Susan - English (United Kingdom)', lang: 'en-GB', gender: 'female', uri: 'Microsoft Susan - English (United Kingdom)' },
+            { name: 'Samantha', lang: 'en-US', gender: 'female', uri: 'com.apple.speech.synthesis.voice.samantha' },
+            { name: 'Alex', lang: 'en-US', gender: 'male', uri: 'com.apple.speech.synthesis.voice.Alex' },
+            { name: 'Google US English', lang: 'en-US', gender: 'female', uri: 'Google US English' },
+            { name: 'Microsoft David - English (United States)', lang: 'en-US', gender: 'male', uri: 'Microsoft David - English (United States)' },
+            { name: 'Microsoft Zira - English (United States)', lang: 'en-US', gender: 'female', uri: 'Microsoft Zira - English (United States)' },
+            { name: 'Ting-Ting', lang: 'zh-CN', gender: 'female', uri: 'com.apple.speech.synthesis.voice.ting-ting' },
+            { name: 'Google 普通话（中国大陆）', lang: 'zh-CN', gender: 'female', uri: 'Google 普通话（中国大陆）' },
+            { name: 'Microsoft Huihui - Chinese (Simplified, PRC)', lang: 'zh-CN', gender: 'female', uri: 'Microsoft Huihui - Chinese (Simplified, PRC)' },
+            { name: 'Microsoft Yaoyao - Chinese (Simplified, PRC)', lang: 'zh-CN', gender: 'female', uri: 'Microsoft Yaoyao - Chinese (Simplified, PRC)' },
+            { name: 'Mei-Jia', lang: 'zh-TW', gender: 'female', uri: 'com.apple.speech.synthesis.voice.mei-jia' }
+        ];
+
         // ==================== STATE ====================
         let vocabData = [];
-        let translationCache = JSON.parse(localStorage.getItem('ss_cache_v6') || '{}');
+        let translationCache = JSON.parse(localStorage.getItem('ss_cache_v7') || '{}');
         let voices = [];
         let currentWorker = null;
         let detectedSubject = null;
         let removedHeaders = [];
-        let ttsRate = parseFloat(localStorage.getItem('ss_rate_v2') || '0.8');
+        let ttsRate = parseFloat(localStorage.getItem('ss_rate_v3') || '1.0');
         let genderPref = localStorage.getItem('ss_gender') || 'any';
-        let selectedVoiceUri = localStorage.getItem('ss_voice') || null;
+        let selectedVoiceUri = localStorage.getItem('ss_voice_v2') || null;
         
-        // Playback state
         let isPlaying = false;
         let isPaused = false;
         let isInGap = false;
@@ -343,7 +368,6 @@
             economics: { name: '經濟', keywords: ['supply','demand','inflation','deflation','recession','gdp','monopoly','market','currency','investment','stock','經濟','供應','需求','通脹','投資'] }
         };
 
-        // ==================== HEADER DETECTION ====================
         const HEADER_PATTERNS = [
             'school','college','university','foundation','secondary','primary','kindergarten','academy','institute',
             'name','date','class','form','f.','s.','worksheet','exam','examination','test','quiz','assessment',
@@ -423,7 +447,7 @@
         function updateRate(v) {
             ttsRate = parseFloat(v);
             document.getElementById('speedVal').textContent = ttsRate + 'x';
-            localStorage.setItem('ss_rate_v2', ttsRate);
+            localStorage.setItem('ss_rate_v3', ttsRate);
         }
 
         function setGender(g, save = true) {
@@ -443,84 +467,102 @@
             const sel = document.getElementById('voiceSelect');
             sel.innerHTML = '';
             
-            let filtered = voices.filter(v => {
-                const n = v.name.toLowerCase();
-                if (n.includes('premium') && !n.includes('google')) return false;
-                if (n.includes('zombie') || n.includes('narrator') || n.includes('news') || n.includes('compact')) return false;
-                if (n.includes('cantonese') || n.includes('hong kong') || n.includes('hk') || n.includes('sin-ji') || n.includes('廣東') || n.includes('粵')) return false;
-                return true;
-            });
+            const availableMap = [];
             
-            if (genderPref !== 'any') {
-                filtered = filtered.filter(v => guessGender(v) === genderPref);
-            }
+            CURATED_VOICES.forEach(cv => {
+                let match = voices.find(v => v.voiceURI === cv.uri || v.name === cv.name);
+                if (!match) {
+                    match = voices.find(v => v.name.includes(cv.name.split(' ')[0]));
+                }
+                if (match) {
+                    if (genderPref === 'any' || cv.gender === genderPref) {
+                        availableMap.push({ ...cv, actualVoice: match });
+                    }
+                }
+            });
             
             const groups = {};
-            filtered.forEach(v => {
-                if (!groups[v.lang]) groups[v.lang] = [];
-                groups[v.lang].push(v);
+            availableMap.forEach(item => {
+                if (!groups[item.lang]) groups[item.lang] = [];
+                groups[item.lang].push(item);
             });
             
-            if (filtered.length === 0) {
-                voices.forEach(v => {
-                    if (!groups[v.lang]) groups[v.lang] = [];
-                    groups[v.lang].push(v);
-                });
-            }
+            const langOrder = ['en-GB', 'en-US', 'zh-CN', 'zh-TW'];
+            const sortedLangs = Object.keys(groups).sort((a, b) => {
+                const ia = langOrder.indexOf(a);
+                const ib = langOrder.indexOf(b);
+                if (ia === -1 && ib === -1) return a.localeCompare(b);
+                if (ia === -1) return 1;
+                if (ib === -1) return -1;
+                return ia - ib;
+            });
             
-            Object.keys(groups).sort().forEach(lang => {
+            sortedLangs.forEach(lang => {
                 const optgroup = document.createElement('optgroup');
-                optgroup.label = lang;
-                groups[lang].forEach(v => {
+                const langLabels = { 'en-GB': '英文（英式）', 'en-US': '英文（美式）', 'zh-CN': '中文（普通話）', 'zh-TW': '中文（台灣）' };
+                optgroup.label = langLabels[lang] || lang;
+                
+                groups[lang].forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.actualVoice.voiceURI;
+                    const genderLabel = item.gender === 'male' ? '男' : '女';
+                    option.textContent = `${item.name} (${genderLabel})`;
+                    if (item.actualVoice.voiceURI === selectedVoiceUri) option.selected = true;
+                    optgroup.appendChild(option);
+                });
+                
+                sel.appendChild(optgroup);
+            });
+            
+            if (availableMap.length === 0) {
+                const fallback = document.createElement('optgroup');
+                fallback.label = '系統聲音';
+                voices.forEach(v => {
                     const option = document.createElement('option');
                     option.value = v.voiceURI;
                     option.textContent = v.name;
                     if (v.voiceURI === selectedVoiceUri) option.selected = true;
-                    optgroup.appendChild(option);
+                    fallback.appendChild(option);
                 });
-                sel.appendChild(optgroup);
-            });
+                sel.appendChild(fallback);
+            }
         }
 
         function saveVoicePref() {
             selectedVoiceUri = document.getElementById('voiceSelect').value;
-            localStorage.setItem('ss_voice', selectedVoiceUri);
-        }
-
-        function guessGender(voice) {
-            const n = voice.name.toLowerCase();
-            const female = ['samantha','victoria','karen','mei-jia','ting-ting','hanhan','tracy','lesya','yuna','laura','anna','claire','tian-tian','yaoyao','google 國語'];
-            const male = ['daniel','fred','lee','alex','tom','david','paul','john','tony','google 粵語'];
-            if (female.some(f => n.includes(f))) return 'female';
-            if (male.some(m => n.includes(m))) return 'male';
-            if (voice.lang.startsWith('zh')) return 'female';
-            return 'female';
+            localStorage.setItem('ss_voice_v2', selectedVoiceUri);
         }
 
         function getBestVoice(langCode) {
-            let pool = voices.filter(v => {
-                const vl = v.lang.toLowerCase();
-                const tl = langCode.toLowerCase();
-                return vl === tl || vl.startsWith(tl + '-');
-            });
+            const targetLang = langCode.toLowerCase();
             
-            if (pool.length === 0) {
-                pool = voices.filter(v => v.lang.toLowerCase().startsWith(langCode.split('-')[0].toLowerCase()));
-            }
-            
-            if (langCode.toLowerCase().startsWith('zh')) {
-                pool = pool.filter(v => {
+            let pool;
+            if (targetLang.startsWith('zh')) {
+                pool = voices.filter(v => {
+                    const vl = v.lang.toLowerCase();
                     const n = v.name.toLowerCase();
-                    const l = v.lang.toLowerCase();
-                    return !n.includes('cantonese') && !n.includes('hong kong') && !n.includes('hk') && 
-                           !n.includes('sin-ji') && !n.includes('廣東') && !n.includes('粵') && 
-                           !l.includes('zh-hk') && !l.includes('hant-hk') && !l.includes('zh-hant-hk');
+                    return (vl === 'zh-cn' || vl.startsWith('zh-cn') || vl === 'zh') &&
+                           !n.includes('cantonese') && !n.includes('hong kong') && !n.includes('hk') &&
+                           !n.includes('sin-ji') && !n.includes('廣東') && !n.includes('粵') &&
+                           !vl.includes('zh-hk') && !vl.includes('zh-tw') && !vl.includes('hant-hk');
                 });
+            } else if (targetLang.startsWith('en')) {
+                pool = voices.filter(v => {
+                    const vl = v.lang.toLowerCase();
+                    return vl === 'en-gb' || vl.startsWith('en-gb') || vl === 'en-us' || vl.startsWith('en-us') || vl === 'en';
+                });
+                pool.sort((a, b) => {
+                    const aGb = a.lang.toLowerCase().includes('gb') ? 0 : 1;
+                    const bGb = b.lang.toLowerCase().includes('gb') ? 0 : 1;
+                    return aGb - bGb;
+                });
+            } else {
+                pool = voices.filter(v => v.lang.toLowerCase().startsWith(targetLang.split('-')[0]));
             }
             
-            if (genderPref !== 'any') {
-                const filtered = pool.filter(v => guessGender(v) === genderPref);
-                if (filtered.length > 0) pool = filtered;
+            if (genderPref !== 'any' && pool.length > 0) {
+                const gendered = pool.filter(v => guessGender(v) === genderPref);
+                if (gendered.length > 0) pool = gendered;
             }
             
             if (selectedVoiceUri) {
@@ -528,21 +570,25 @@
                 if (selected) return selected;
             }
             
-            // Priority: known high-quality British / Mandarin voices
-            const preferredNames = [
-                'Daniel', 'Kate', 'Serena', 'Google UK English Male', 'Google UK English Female',
-                'Microsoft George', 'Microsoft Hazel', 'Microsoft Susan',
-                'Samantha', 'Alex', 'Google US English', 'Microsoft David', 'Microsoft Zira',
-                'Ting-Ting', 'Google 普通话', 'Microsoft Huihui', 'Microsoft Yaoyao', 'Mei-Jia'
-            ];
+            const preferredOrder = targetLang.startsWith('zh') 
+                ? ['Ting-Ting', 'Google 普通话', 'Microsoft Huihui', 'Microsoft Yaoyao', 'Mei-Jia']
+                : ['Daniel', 'Kate', 'Serena', 'Google UK English', 'Samantha', 'Alex', 'Microsoft George', 'Microsoft Hazel'];
             
-            for (const name of preferredNames) {
+            for (const name of preferredOrder) {
                 const found = pool.find(v => v.name.includes(name));
                 if (found) return found;
             }
             
-            const quality = pool.find(v => /Google|Apple|Microsoft|Samsung/.test(v.name));
-            return quality || pool[0] || voices[0];
+            return pool[0] || voices[0];
+        }
+
+        function guessGender(voice) {
+            const n = voice.name.toLowerCase();
+            const female = ['samantha','kate','serena','ting-ting','huihui','yaoyao','mei-jia','zira','susan','hazel'];
+            const male = ['daniel','alex','george','david'];
+            if (female.some(f => n.includes(f))) return 'female';
+            if (male.some(m => n.includes(m))) return 'male';
+            return 'female';
         }
 
         // ==================== SUBJECT DETECTION ====================
@@ -568,7 +614,7 @@
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     
-                    const maxDim = 2200;
+                    const maxDim = 2400;
                     let w = img.width, h = img.height;
                     if (w > maxDim || h > maxDim) {
                         const scale = maxDim / Math.max(w, h);
@@ -586,10 +632,9 @@
                     for (let i = 0; i < data.length; i += 4) {
                         const r = data[i], g = data[i+1], b = data[i+2];
                         let gray = 0.299 * r + 0.587 * g + 0.114 * b;
-                        gray = ((gray - 128) * 1.3) + 128;
+                        gray = ((gray - 128) * 1.4) + 128;
                         gray = Math.max(0, Math.min(255, gray));
-                        // Soft threshold: darken non-white slightly to increase contrast
-                        gray = gray > 200 ? 255 : (gray < 60 ? 0 : gray);
+                        gray = gray > 210 ? 255 : (gray < 50 ? 0 : gray);
                         data[i] = data[i+1] = data[i+2] = gray;
                     }
                     
@@ -600,7 +645,7 @@
             });
         }
 
-        // ==================== OCR & WORD-LEVEL RECONSTRUCTION ====================
+        // ==================== OCR ====================
         async function handleImage(file) {
             if (!file) return;
             showScreen('ocrProgress');
@@ -608,7 +653,6 @@
             const reader = new FileReader();
             reader.onload = async (e) => {
                 try {
-                    // Preprocess image first
                     document.getElementById('ocrStatus').textContent = '正在優化圖像...';
                     const processedImage = await preprocessImage(e.target.result);
                     
@@ -631,12 +675,10 @@
                         }
                     });
                     
-                    // Use word-level data with bounding boxes for table reconstruction
                     const { data } = await currentWorker.recognize(processedImage);
                     await currentWorker.terminate();
                     currentWorker = null;
                     
-                    // Reconstruct lines from words using spatial grouping
                     const goodWords = (data.words || []).filter(w => w.confidence > 55 && w.text.trim().length > 0);
                     const lines = reconstructLinesFromWords(goodWords);
                     const text = lines.join('\n');
@@ -644,7 +686,6 @@
                     const cleanedText = cleanRawText(text);
                     detectedSubject = detectSubject(cleanedText);
                     
-                    // Show banner info
                     const banner = document.getElementById('extractBanner');
                     const info = document.getElementById('extractInfo');
                     if (removedHeaders.length > 0) {
@@ -670,7 +711,7 @@
         function reconstructLinesFromWords(words) {
             if (!words || words.length === 0) return [];
             
-            const yThreshold = 25; // pixels
+            const yThreshold = 22;
             const lines = [];
             
             words.forEach(word => {
@@ -678,13 +719,735 @@
                 const line = lines.find(l => Math.abs(l.y - y) < yThreshold);
                 if (line) {
                     line.words.push(word);
-                    line.y = (line.y * (line.words.length - 1) + y) / line.words.length; // running average
+                    line.y = (line.y * (line.words.length - 1) + y) / line.words.length;
                 } else {
                     lines.push({ y, words: [word] });
                 }
             });
             
-            // Sort lines top-to-bottom, words left-to-right
+            lines.sort((a, b) => a.y - b.y);
+            lines.forEach(line => {
+                line.words.sort((a, b) => a.bbox.x0 - b.bbox.x0);
+                line.text = line.words.map(w => w.text).join(' ');
+            });
+            
+            return lines.map(l => l.text);
+        }
+
+        function cleanRawText(rawText) {
+            const lines = rawText.split('\n');
+            removedHeaders = [];
+            const cleanLines = [];
+            
+            lines.forEach((line, idx) => {
+                if (isHeaderLine(line, idx, lines)) {
+                    const trimmed = line.trim();
+                    if (trimmed) removedHeaders.push(trimmed);
+                } else {
+                    cleanLines.push(line);
+                }
+            });
+            
+            return cleanLines.join('\n').trim();
+        }
+
+        // ==================== DIRECT TEXT ====================
+        function processDirectText() {
+            const text = document.getElementById('directText').value;
+            if (!text.trim()) return;
+            
+            detectedSubject = detectSubject(text);
+            removedHeaders = [];
+            
+            const banner = document.getElementById('extractBanner');
+            const info = document.getElementById('extractInfo');
+            if (detectedSubject) {
+                banner1px solid #e8e8e0;
+            transition: all 0.2s ease;
+        }
+        .card:hover {
+            border-color: #d4d4c8;
+            box-shadow: 0 4px 20px -4px rgba(0,0,0,0.06);
+        }
+        .card-active {
+            border-color: #4f46e5 !important;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15), 0 4px 20px -4px rgba(0,0,0,0.08) !important;
+            background: #fafaff;
+        }
+        
+        .card-enter {
+            animation: cardEnter 0.35s ease-out forwards;
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        @keyframes cardEnter {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, #f5f5f0 25%, #e8e8e0 50%, #f5f5f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        input[type=range] {
+            -webkit-appearance: none;
+            height: 5px;
+            border-radius: 3px;
+            background: #e8e8e0;
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #4f46e5;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+        
+        .editable:focus {
+            outline: 2px solid #c7d2fe;
+            outline-offset: 2px;
+            border-radius: 4px;
+            background: #eef2ff;
+        }
+        
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover { background-color: #4338ca; }
+        .btn-primary:active { transform: scale(0.98); }
+        
+        .btn-secondary {
+            background-color: white;
+            border: 1px solid #e8e8e0;
+            color: #57534e;
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover { background-color: #fafaf8; border-color: #d4d4c8; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d4d4c8; border-radius: 3px; }
+        
+        .tag {
+            font-size: 10px;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="text-ink-800 min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-ink-800 text-stone-100 sticky top-0 z-50 border-b border-stone-700">
+        <div class="max-w-2xl mx-auto px-5 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-stone-700 rounded-lg flex items-center justify-center border border-stone-600">
+                    <i class="fas fa-volume-high text-sm text-stone-300"></i>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold tracking-tight leading-none font-serif">TTS</h1>
+                    <p class="text-[11px] text-stone-400 mt-0.5 tracking-wide">詞語朗讀 · 聽寫練習</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="toggleSettings()" class="p-2.5 hover:bg-stone-700 rounded-lg transition text-stone-400" title="語音設定">
+                    <i class="fas fa-sliders text-sm"></i>
+                </button>
+                <button onclick="resetApp()" class="p-2.5 hover:bg-stone-700 rounded-lg transition text-stone-400" title="重新開始">
+                    <i class="fas fa-rotate-right text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="hidden fixed inset-0 z-[60] bg-black/30 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-paper-50 w-full max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl border border-paper-200 max-h-[85vh] overflow-y-auto">
+            <div class="p-4 border-b border-paper-200 flex items-center justify-between sticky top-0 bg-paper-50 rounded-t-2xl z-10">
+                <h3 class="font-bold text-ink-700 font-serif flex items-center gap-2"><i class="fas fa-sliders text-accent-600"></i>語音設定</h3>
+                <button onclick="toggleSettings()" class="w-8 h-8 rounded-lg hover:bg-paper-100 flex items-center justify-center text-ink-500"><i class="fas fa-xmark"></i></button>
+            </div>
+            <div class="p-6 space-y-6">
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <label class="text-sm font-semibold text-ink-700">語速</label>
+                        <span id="speedVal" class="text-sm font-mono text-accent-600 bg-accent-50 px-2 rounded">1.0x</span>
+                    </div>
+                    <input type="range" min="0.1" max="3.0" step="0.1" value="1.0" id="rateSlider" oninput="updateRate(this.value)" class="w-full">
+                    <div class="flex justify-between text-[10px] text-ink-500 mt-1"><span>0.1x</span><span>1.0x 正常</span><span>3.0x</span></div>
+                </div>
+                
+                <div>
+                    <label class="text-sm font-semibold text-ink-700 block mb-2">聲音性別</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setGender('any')" id="g-any" class="gender-btn px-3 py-2 rounded-lg border-2 border-accent-600 bg-accent-50 text-accent-700 text-xs font-bold transition">自動</button>
+                        <button onclick="setGender('female')" id="g-female" class="gender-btn px-3 py-2 rounded-lg border border-paper-300 text-ink-600 text-xs font-bold hover:border-paper-400 transition">女聲</button>
+                        <button onclick="setGender('male')" id="g-male" class="gender-btn px-3 py-2 rounded-lg border border-paper-300 text-ink-600 text-xs font-bold hover:border-paper-400 transition">男聲</button>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="text-sm font-semibold text-ink-700 block mb-2">朗讀聲音</label>
+                    <select id="voiceSelect" onchange="saveVoicePref()" class="w-full rounded-lg border border-paper-300 p-2.5 text-sm focus:ring-2 focus:ring-accent-600 focus:border-transparent bg-white"></select>
+                    <p class="text-[11px] text-ink-500 mt-1.5">英文預設英式發音（en-GB），中文預設普通話（zh-CN）</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-2xl mx-auto px-5 py-6 space-y-5 pb-32">
+
+        <!-- INPUT -->
+        <section id="inputSection" class="card rounded-xl overflow-hidden">
+            <div class="p-4 border-b border-paper-200 bg-paper-50">
+                <h2 class="font-bold text-ink-700 text-sm flex items-center gap-2 font-serif">
+                    <i class="fas fa-camera text-accent-600"></i>拍攝或上傳文件
+                </h2>
+            </div>
+            <div class="p-5 space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="cursor-pointer group block">
+                        <input type="file" accept="image/*" capture="environment" class="hidden" onchange="handleImage(this.files[0])">
+                        <div class="border border-dashed border-paper-300 rounded-lg p-4 text-center group-hover:border-accent-600 group-hover:bg-accent-50/30 transition bg-paper-50 h-full flex flex-col items-center justify-center min-h-[96px]">
+                            <div class="w-10 h-10 rounded-full bg-accent-50 text-accent-600 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <span class="text-sm font-bold text-ink-700">拍照</span>
+                            <span class="text-[10px] text-ink-500 mt-1">使用相機</span>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer group block">
+                        <input type="file" accept="image/*" class="hidden" onchange="handleImage(this.files[0])">
+                        <div class="border border-dashed border-paper-300 rounded-lg p-4 text-center group-hover:border-ink-500 group-hover:bg-paper-100 transition bg-paper-50 h-full flex flex-col items-center justify-center min-h-[96px]">
+                            <div class="w-10 h-10 rounded-full bg-paper-200 text-ink-500 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <span class="text-sm font-bold text-ink-700">相簿</span>
+                            <span class="text-[10px] text-ink-500 mt-1">選擇圖片</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-paper-200"></div></div>
+                    <div class="relative flex justify-center text-xs"><span class="px-2 bg-white text-ink-500">或貼上文字</span></div>
+                </div>
+
+                <textarea id="directText" rows="4" class="w-full rounded-lg border border-paper-300 p-3.5 text-sm focus:ring-2 focus:ring-accent-600 focus:border-transparent resize-none bg-paper-50" placeholder="貼上詞彙（每行一個），或將截圖貼到頁面上..."></textarea>
+                
+                <button onclick="processDirectText()" class="w-full btn-primary font-bold py-3 rounded-lg flex items-center justify-center gap-2 shadow-md shadow-indigo-100">
+                    <i class="fas fa-wand-magic-sparkles"></i>生成詞卡
+                </button>
+                <p class="text-[11px] text-ink-500 text-center">
+                    <i class="fas fa-shield-halved mr-1"></i>文件僅於本地處理，不上傳至伺服器
+                </p>
+            </div>
+        </section>
+
+        <!-- OCR PROGRESS -->
+        <section id="ocrProgress" class="hidden card rounded-xl p-8 text-center">
+            <div class="w-14 h-14 rounded-full bg-accent-600 flex items-center justify-center mx-auto mb-4 animate-pulse">
+                <i class="fas fa-brain text-white text-xl"></i>
+            </div>
+            <h3 class="font-bold text-ink-800 mb-1 font-serif text-lg">正在辨識...</h3>
+            <p id="ocrStatus" class="text-sm text-ink-500 mb-6">載入 AI 模型（約 10 MB）</p>
+            <div class="w-full bg-paper-200 rounded-full h-2 overflow-hidden max-w-xs mx-auto">
+                <div id="ocrBar" class="bg-accent-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+        </section>
+
+        <!-- RESULTS -->
+        <section id="resultsSection" class="hidden space-y-4">
+            <div id="extractBanner" class="hidden text-xs bg-paper-100 px-3 py-2 rounded-md border border-paper-200">
+                <span id="extractInfo" class="text-ink-600"></span>
+            </div>
+            
+            <div class="flex items-center justify-between px-1">
+                <div class="flex items-center gap-2">
+                    <span id="cardCount" class="text-xs bg-accent-50 text-accent-700 px-2 py-0.5 rounded font-bold border border-accent-100">0</span>
+                    <p id="subjectBadge" class="text-[11px] text-ink-500 hidden"></p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="playShuffle()" class="text-xs bg-white border border-paper-300 px-3 py-2 rounded-lg hover:bg-paper-50 transition flex items-center gap-2 text-ink-700 font-bold shadow-sm" title="隨機聽寫">
+                        <i class="fas fa-shuffle text-accent-600 text-[10px]"></i>隨機
+                    </button>
+                    <button onclick="playAll()" class="text-xs bg-white border border-paper-300 px-3 py-2 rounded-lg hover:bg-paper-50 transition flex items-center gap-2 text-ink-700 font-bold shadow-sm">
+                        <i class="fas fa-play text-accent-600 text-[10px]"></i>順序
+                    </button>
+                </div>
+            </div>
+            
+            <div id="vocabList" class="space-y-3"></div>
+        </section>
+
+        <!-- EMPTY STATE -->
+        <section id="emptyState" class="text-center py-20 text-paper-300">
+            <div class="w-20 h-20 bg-paper-100 rounded-full flex items-center justify-center mx-auto mb-5 border border-paper-200">
+                <i class="fas fa-volume-high text-3xl text-paper-300"></i>
+            </div>
+            <p class="text-base font-bold text-ink-500 font-serif">拍攝文件以開始朗讀</p>
+            <p class="text-xs mt-2 text-ink-400 max-w-xs mx-auto leading-relaxed">自動過濾標題與格式<br>專注提取詞彙，支援英文與繁體中文</p>
+        </section>
+
+    </main>
+
+    <!-- Player -->
+    <div id="miniPlayer" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 hidden w-[calc(100%-2.5rem)] max-w-[360px]">
+        <div class="bg-ink-800 text-stone-200 rounded-2xl shadow-2xl border border-stone-700 overflow-hidden">
+            <div class="h-1 bg-stone-700 w-full">
+                <div id="playerBar" class="h-full bg-accent-500 transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div class="px-4 py-3">
+                <div class="mb-2 min-h-[2.5rem] flex items-center">
+                    <p id="playerText" class="text-sm font-medium text-stone-100 leading-snug break-words w-full">Playing...</p>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span id="playerProgress" class="text-[10px] text-stone-400 font-mono">0 / 0</span>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="playPrev()" class="w-8 h-8 rounded-full bg-stone-700 hover:bg-stone-600 flex items-center justify-center text-stone-300 transition">
+                            <i class="fas fa-backward-step text-[10px]"></i>
+                        </button>
+                        <button onclick="togglePause()" id="pauseBtn" class="w-9 h-9 rounded-full bg-accent-600 hover:bg-accent-700 flex items-center justify-center text-white transition">
+                            <i class="fas fa-pause text-xs"></i>
+                        </button>
+                        <button onclick="playNextManual()" class="w-8 h-8 rounded-full bg-stone-700 hover:bg-stone-600 flex items-center justify-center text-stone-300 transition">
+                            <i class="fas fa-forward-step text-[10px]"></i>
+                        </button>
+                        <button onclick="stopPlayback()" class="w-8 h-8 rounded-full bg-stone-700 hover:bg-stone-600 flex items-center justify-center text-stone-400 transition ml-1">
+                            <i class="fas fa-stop text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== CURATED VOICE LIST ====================
+        const CURATED_VOICES = [
+            { name: 'Daniel', lang: 'en-GB', gender: 'male', uri: 'com.apple.speech.synthesis.voice.daniel' },
+            { name: 'Kate', lang: 'en-GB', gender: 'female', uri: 'com.apple.speech.synthesis.voice.kate' },
+            { name: 'Serena', lang: 'en-GB', gender: 'female', uri: 'com.apple.speech.synthesis.voice.serena' },
+            { name: 'Google UK English Male', lang: 'en-GB', gender: 'male', uri: 'Google UK English Male' },
+            { name: 'Google UK English Female', lang: 'en-GB', gender: 'female', uri: 'Google UK English Female' },
+            { name: 'Microsoft George - English (United Kingdom)', lang: 'en-GB', gender: 'male', uri: 'Microsoft George - English (United Kingdom)' },
+            { name: 'Microsoft Hazel - English (United Kingdom)', lang: 'en-GB', gender: 'female', uri: 'Microsoft Hazel - English (United Kingdom)' },
+            { name: 'Microsoft Susan - English (United Kingdom)', lang: 'en-GB', gender: 'female', uri: 'Microsoft Susan - English (United Kingdom)' },
+            { name: 'Samantha', lang: 'en-US', gender: 'female', uri: 'com.apple.speech.synthesis.voice.samantha' },
+            { name: 'Alex', lang: 'en-US', gender: 'male', uri: 'com.apple.speech.synthesis.voice.Alex' },
+            { name: 'Google US English', lang: 'en-US', gender: 'female', uri: 'Google US English' },
+            { name: 'Microsoft David - English (United States)', lang: 'en-US', gender: 'male', uri: 'Microsoft David - English (United States)' },
+            { name: 'Microsoft Zira - English (United States)', lang: 'en-US', gender: 'female', uri: 'Microsoft Zira - English (United States)' },
+            { name: 'Ting-Ting', lang: 'zh-CN', gender: 'female', uri: 'com.apple.speech.synthesis.voice.ting-ting' },
+            { name: 'Google 普通话（中国大陆）', lang: 'zh-CN', gender: 'female', uri: 'Google 普通话（中国大陆）' },
+            { name: 'Microsoft Huihui - Chinese (Simplified, PRC)', lang: 'zh-CN', gender: 'female', uri: 'Microsoft Huihui - Chinese (Simplified, PRC)' },
+            { name: 'Microsoft Yaoyao - Chinese (Simplified, PRC)', lang: 'zh-CN', gender: 'female', uri: 'Microsoft Yaoyao - Chinese (Simplified, PRC)' },
+            { name: 'Mei-Jia', lang: 'zh-TW', gender: 'female', uri: 'com.apple.speech.synthesis.voice.mei-jia' }
+        ];
+
+        // ==================== STATE ====================
+        let vocabData = [];
+        let translationCache = JSON.parse(localStorage.getItem('ss_cache_v7') || '{}');
+        let voices = [];
+        let currentWorker = null;
+        let detectedSubject = null;
+        let removedHeaders = [];
+        let ttsRate = parseFloat(localStorage.getItem('ss_rate_v3') || '1.0');
+        let genderPref = localStorage.getItem('ss_gender') || 'any';
+        let selectedVoiceUri = localStorage.getItem('ss_voice_v2') || null;
+        
+        let isPlaying = false;
+        let isPaused = false;
+        let isInGap = false;
+        let playQueue = [];
+        let currentQueueIndex = -1;
+        let currentPlayId = null;
+        let gapTimeout = null;
+
+        // ==================== SUBJECT KEYWORDS ====================
+        const SUBJECTS = {
+            history: { name: '歷史', keywords: ['war','revolution','empire','dynasty','ancient','medieval','treaty','civilization','colony','independence','republic','kingdom','colonial','imperialism','mercantilism','nationalism','monarchy','constitution','history','歷史','戰爭','革命','帝國','王朝','古代','條約','文明','殖民地','獨立','共和國','王國','帝國主義','重商主義','民族主義','君主制','憲法'] },
+            math: { name: '數學', keywords: ['equation','algebra','geometry','calculus','derivative','integral','theorem','vector','matrix','probability','statistics','quadratic','polynomial','trigonometry','數學','代數','幾何','微積分','導數','積分','定理','向量','矩陣','概率','統計'] },
+            physics: { name: '物理', keywords: ['force','energy','gravity','velocity','acceleration','momentum','friction','nuclear','quantum','relativity','optics','thermodynamics','物理','力','能量','重力','速度','加速度','動量','摩擦力','核','量子'] },
+            chemistry: { name: '化學', keywords: ['atom','molecule','compound','reaction','acid','base','oxide','polymer','catalyst','electron','proton','neutron','bond','化學','原子','分子','化合物','反應','酸','鹼'] },
+            biology: { name: '生物', keywords: ['cell','organism','dna','rna','protein','enzyme','photosynthesis','ecosystem','evolution','species','organ','tissue','membrane','生物','細胞','有機體','蛋白質','酶','光合作用'] },
+            geography: { name: '地理', keywords: ['mountain','river','ocean','continent','climate','latitude','longitude','altitude','terrain','volcano','earthquake','tsunami','population','地理','山','河','海洋','大陸','氣候'] },
+            english: { name: '英文', keywords: ['grammar','vocabulary','noun','verb','adjective','adverb','preposition','conjunction','sentence','paragraph','essay','literature','poetry','文法','詞彙','名詞','動詞','形容詞'] },
+            economics: { name: '經濟', keywords: ['supply','demand','inflation','deflation','recession','gdp','monopoly','market','currency','investment','stock','經濟','供應','需求','通脹','投資'] }
+        };
+
+        const HEADER_PATTERNS = [
+            'school','college','university','foundation','secondary','primary','kindergarten','academy','institute',
+            'name','date','class','form','f.','s.','worksheet','exam','examination','test','quiz','assessment',
+            'subject','teacher','student','pupil','score','mark','grade','grading','period','time','duration','minutes',
+            'instruction','direction','answer','question','paper','homework','assignment','scope','syllabus',
+            'package','term','first term','second term','mid-term','final','year','academic',
+            '學校','學院','大學','中學','小學','幼稚園','書院','姓名','日期','班級','班別','工作紙','測驗','考試',
+            '科目','老師','學生','分數','成績','級別','時間','時限','分鐘','指示','答案','問題','試卷','功課','作業',
+            '範圍','課程','學期','上學期','下學期','期中','期末','年度','學年',
+            'true or false','time sense','matching','fill in the blank','multiple choice','short answer',
+            'data-based','structured question','essay question','long question',
+            '判斷題','配對','填充','選擇題','短答題','資料題','長問題',
+            'concepts and vocabulary','vocabulary list','word list','glossary','key terms',
+            '概念','詞彙','詞語','詞語表','字詞','關鍵詞',
+            'page','total','no.','#','id','serial','index','item','number','note','remark',
+            '頁','總分','編號','項目','備註'
+        ];
+
+        const TABLE_HEADER_PATTERNS = [
+            'european colonial expansion','the american revolution','the french revolution',
+            'industrial revolution','world war','cold war','ancient civilization',
+            '歐洲殖民擴張','美國革命','法國革命','工業革命','世界大戰','冷戰','古代文明'
+        ];
+
+        function isHeaderLine(line, index, allLines) {
+            const l = line.trim();
+            if (!l) return true;
+            if (l.length === 1 && /^[A-Z]$/.test(l)) return true;
+            if (/^[A-Z][\.\)]\s/.test(l) && l.length < 50) return true;
+            if (/^\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}$/.test(l)) return true;
+            if (/^\d{4}-\d{4}/.test(l)) return true;
+            if (/^(no\.?|#|id|s\d+|f\.?\d+|p\.?\d+|class\s*\d*)/i.test(l)) return true;
+            if (l === l.toUpperCase() && l.length > 6 && l.length < 50 && l.includes(' ')) return true;
+            
+            const lower = ' ' + l.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,' ') + ' ';
+            if (HEADER_PATTERNS.some(p => lower.includes(' ' + p + ' '))) return true;
+            if (TABLE_HEADER_PATTERNS.some(p => lower.includes(p))) return true;
+            if (/^(true or false|time sense|matching|fill in|multiple choice|short answer|data-based|structured|essay)/i.test(l)) return true;
+            
+            return false;
+        }
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('rateSlider').value = ttsRate;
+            document.getElementById('speedVal').textContent = ttsRate + 'x';
+            setGender(genderPref, false);
+            
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = initVoices;
+            }
+            setTimeout(initVoices, 500);
+            
+            document.addEventListener('paste', (e) => {
+                const items = e.clipboardData.items;
+                for (let item of items) {
+                    if (item.type.startsWith('image/')) {
+                        handleImage(item.getAsFile());
+                        break;
+                    }
+                }
+            });
+        });
+
+        function initVoices() {
+            voices = speechSynthesis.getVoices();
+            populateVoiceSelector();
+        }
+
+        // ==================== SETTINGS ====================
+        function toggleSettings() {
+            const p = document.getElementById('settingsPanel');
+            p.classList.toggle('hidden');
+            if (!p.classList.contains('hidden')) populateVoiceSelector();
+        }
+
+        function updateRate(v) {
+            ttsRate = parseFloat(v);
+            document.getElementById('speedVal').textContent = ttsRate + 'x';
+            localStorage.setItem('ss_rate_v3', ttsRate);
+        }
+
+        function setGender(g, save = true) {
+            genderPref = g;
+            if (save) localStorage.setItem('ss_gender', g);
+            document.querySelectorAll('.gender-btn').forEach(b => {
+                b.classList.remove('border-accent-600', 'bg-accent-50', 'text-accent-700', 'border-2');
+                b.classList.add('border-paper-300', 'text-ink-600');
+            });
+            const active = document.getElementById('g-' + g);
+            active.classList.remove('border-paper-300', 'text-ink-600');
+            active.classList.add('border-accent-600', 'bg-accent-50', 'text-accent-700', 'border-2');
+            populateVoiceSelector();
+        }
+
+        function populateVoiceSelector() {
+            const sel = document.getElementById('voiceSelect');
+            sel.innerHTML = '';
+            
+            const availableMap = [];
+            
+            CURATED_VOICES.forEach(cv => {
+                let match = voices.find(v => v.voiceURI === cv.uri || v.name === cv.name);
+                if (!match) {
+                    match = voices.find(v => v.name.includes(cv.name.split(' ')[0]));
+                }
+                if (match) {
+                    if (genderPref === 'any' || cv.gender === genderPref) {
+                        availableMap.push({ ...cv, actualVoice: match });
+                    }
+                }
+            });
+            
+            const groups = {};
+            availableMap.forEach(item => {
+                if (!groups[item.lang]) groups[item.lang] = [];
+                groups[item.lang].push(item);
+            });
+            
+            const langOrder = ['en-GB', 'en-US', 'zh-CN', 'zh-TW'];
+            const sortedLangs = Object.keys(groups).sort((a, b) => {
+                const ia = langOrder.indexOf(a);
+                const ib = langOrder.indexOf(b);
+                if (ia === -1 && ib === -1) return a.localeCompare(b);
+                if (ia === -1) return 1;
+                if (ib === -1) return -1;
+                return ia - ib;
+            });
+            
+            sortedLangs.forEach(lang => {
+                const optgroup = document.createElement('optgroup');
+                const langLabels = { 'en-GB': '英文（英式）', 'en-US': '英文（美式）', 'zh-CN': '中文（普通話）', 'zh-TW': '中文（台灣）' };
+                optgroup.label = langLabels[lang] || lang;
+                
+                groups[lang].forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.actualVoice.voiceURI;
+                    const genderLabel = item.gender === 'male' ? '男' : '女';
+                    option.textContent = `${item.name} (${genderLabel})`;
+                    if (item.actualVoice.voiceURI === selectedVoiceUri) option.selected = true;
+                    optgroup.appendChild(option);
+                });
+                
+                sel.appendChild(optgroup);
+            });
+            
+            if (availableMap.length === 0) {
+                const fallback = document.createElement('optgroup');
+                fallback.label = '系統聲音';
+                voices.forEach(v => {
+                    const option = document.createElement('option');
+                    option.value = v.voiceURI;
+                    option.textContent = v.name;
+                    if (v.voiceURI === selectedVoiceUri) option.selected = true;
+                    fallback.appendChild(option);
+                });
+                sel.appendChild(fallback);
+            }
+        }
+
+        function saveVoicePref() {
+            selectedVoiceUri = document.getElementById('voiceSelect').value;
+            localStorage.setItem('ss_voice_v2', selectedVoiceUri);
+        }
+
+        function getBestVoice(langCode) {
+            const targetLang = langCode.toLowerCase();
+            
+            let pool;
+            if (targetLang.startsWith('zh')) {
+                pool = voices.filter(v => {
+                    const vl = v.lang.toLowerCase();
+                    const n = v.name.toLowerCase();
+                    return (vl === 'zh-cn' || vl.startsWith('zh-cn') || vl === 'zh') &&
+                           !n.includes('cantonese') && !n.includes('hong kong') && !n.includes('hk') &&
+                           !n.includes('sin-ji') && !n.includes('廣東') && !n.includes('粵') &&
+                           !vl.includes('zh-hk') && !vl.includes('zh-tw') && !vl.includes('hant-hk');
+                });
+            } else if (targetLang.startsWith('en')) {
+                pool = voices.filter(v => {
+                    const vl = v.lang.toLowerCase();
+                    return vl === 'en-gb' || vl.startsWith('en-gb') || vl === 'en-us' || vl.startsWith('en-us') || vl === 'en';
+                });
+                pool.sort((a, b) => {
+                    const aGb = a.lang.toLowerCase().includes('gb') ? 0 : 1;
+                    const bGb = b.lang.toLowerCase().includes('gb') ? 0 : 1;
+                    return aGb - bGb;
+                });
+            } else {
+                pool = voices.filter(v => v.lang.toLowerCase().startsWith(targetLang.split('-')[0]));
+            }
+            
+            if (genderPref !== 'any' && pool.length > 0) {
+                const gendered = pool.filter(v => guessGender(v) === genderPref);
+                if (gendered.length > 0) pool = gendered;
+            }
+            
+            if (selectedVoiceUri) {
+                const selected = pool.find(v => v.voiceURI === selectedVoiceUri);
+                if (selected) return selected;
+            }
+            
+            const preferredOrder = targetLang.startsWith('zh') 
+                ? ['Ting-Ting', 'Google 普通话', 'Microsoft Huihui', 'Microsoft Yaoyao', 'Mei-Jia']
+                : ['Daniel', 'Kate', 'Serena', 'Google UK English', 'Samantha', 'Alex', 'Microsoft George', 'Microsoft Hazel'];
+            
+            for (const name of preferredOrder) {
+                const found = pool.find(v => v.name.includes(name));
+                if (found) return found;
+            }
+            
+            return pool[0] || voices[0];
+        }
+
+        function guessGender(voice) {
+            const n = voice.name.toLowerCase();
+            const female = ['samantha','kate','serena','ting-ting','huihui','yaoyao','mei-jia','zira','susan','hazel'];
+            const male = ['daniel','alex','george','david'];
+            if (female.some(f => n.includes(f))) return 'female';
+            if (male.some(m => n.includes(m))) return 'male';
+            return 'female';
+        }
+
+        // ==================== SUBJECT DETECTION ====================
+        function detectSubject(text) {
+            const scores = {};
+            const lower = text.toLowerCase();
+            Object.entries(SUBJECTS).forEach(([key, data]) => {
+                scores[key] = data.keywords.reduce((sum, kw) => {
+                    const regex = new RegExp(kw, 'gi');
+                    const matches = lower.match(regex);
+                    return sum + (matches ? matches.length * (kw.length > 8 ? 2 : 1) : 0);
+                }, 0);
+            });
+            const best = Object.entries(scores).sort((a,b) => b[1] - a[1])[0];
+            return best[1] > 3 ? best[0] : null;
+        }
+
+        // ==================== IMAGE PREPROCESSING ====================
+        function preprocessImage(imageDataUrl) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    const maxDim = 2400;
+                    let w = img.width, h = img.height;
+                    if (w > maxDim || h > maxDim) {
+                        const scale = maxDim / Math.max(w, h);
+                        w = Math.round(w * scale);
+                        h = Math.round(h * scale);
+                    }
+                    
+                    canvas.width = w;
+                    canvas.height = h;
+                    ctx.drawImage(img, 0, 0, w, h);
+                    
+                    const imageData = ctx.getImageData(0, 0, w, h);
+                    const data = imageData.data;
+                    
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i], g = data[i+1], b = data[i+2];
+                        let gray = 0.299 * r + 0.587 * g + 0.114 * b;
+                        gray = ((gray - 128) * 1.4) + 128;
+                        gray = Math.max(0, Math.min(255, gray));
+                        gray = gray > 210 ? 255 : (gray < 50 ? 0 : gray);
+                        data[i] = data[i+1] = data[i+2] = gray;
+                    }
+                    
+                    ctx.putImageData(imageData, 0, 0);
+                    resolve(canvas.toDataURL('image/png'));
+                };
+                img.src = imageDataUrl;
+            });
+        }
+
+        // ==================== OCR ====================
+        async function handleImage(file) {
+            if (!file) return;
+            showScreen('ocrProgress');
+            
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    document.getElementById('ocrStatus').textContent = '正在優化圖像...';
+                    const processedImage = await preprocessImage(e.target.result);
+                    
+                    if (currentWorker) await currentWorker.terminate();
+                    
+                    currentWorker = await Tesseract.createWorker('eng+chi_tra', 1, {
+                        logger: m => {
+                            const bar = document.getElementById('ocrBar');
+                            const status = document.getElementById('ocrStatus');
+                            if (m.status === 'recognizing text') {
+                                bar.style.width = Math.round(m.progress * 100) + '%';
+                                status.textContent = `正在辨識... ${Math.round(m.progress * 100)}%`;
+                            } else if (m.status === 'loading language traineddata') {
+                                status.textContent = '正在載入語言模型...';
+                            } else if (m.status === 'initializing api') {
+                                status.textContent = '正在初始化辨識引擎...';
+                            } else {
+                                status.textContent = m.status;
+                            }
+                        }
+                    });
+                    
+                    const { data } = await currentWorker.recognize(processedImage);
+                    await currentWorker.terminate();
+                    currentWorker = null;
+                    
+                    const goodWords = (data.words || []).filter(w => w.confidence > 55 && w.text.trim().length > 0);
+                    const lines = reconstructLinesFromWords(goodWords);
+                    const text = lines.join('\n');
+                    
+                    const cleanedText = cleanRawText(text);
+                    detectedSubject = detectSubject(cleanedText);
+                    
+                    const banner = document.getElementById('extractBanner');
+                    const info = document.getElementById('extractInfo');
+                    if (removedHeaders.length > 0) {
+                        banner.classList.remove('hidden');
+                        info.innerHTML = `<i class="fas fa-filter mr-1"></i>已過濾 ${removedHeaders.length} 項標題與格式說明`;
+                    } else if (detectedSubject) {
+                        banner.classList.remove('hidden');
+                        info.innerHTML = `<i class="fas fa-bookmark mr-1"></i>偵測學科：${SUBJECTS[detectedSubject].name}`;
+                    } else {
+                        banner.classList.add('hidden');
+                    }
+                    
+                    generateCards(cleanedText);
+                } catch (err) {
+                    console.error(err);
+                    alert('辨識錯誤：' + err.message);
+                    showScreen('inputSection');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function reconstructLinesFromWords(words) {
+            if (!words || words.length === 0) return [];
+            
+            const yThreshold = 22;
+            const lines = [];
+            
+            words.forEach(word => {
+                const y = (word.bbox.y0 + word.bbox.y1) / 2;
+                const line = lines.find(l => Math.abs(l.y - y) < yThreshold);
+                if (line) {
+                    line.words.push(word);
+                    line.y = (line.y * (line.words.length - 1) + y) / line.words.length;
+                } else {
+                    lines.push({ y, words: [word] });
+                }
+            });
+            
             lines.sort((a, b) => a.y - b.y);
             lines.forEach(line => {
                 line.words.sort((a, b) => a.bbox.x0 - b.bbox.x0);
@@ -755,13 +1518,11 @@
             
             let lines = text.split('\n').map(cleanLine).filter(l => l.length > 0);
             
-            // Filter garbage
             lines = lines.filter(l => {
                 const realChars = (l.match(/[a-zA-Z\u4e00-\u9fff0-9]/g) || []).length;
                 return (realChars / l.length) > 0.35;
             });
             
-            // Split merged table rows
             const finalItems = [];
             lines.forEach(line => {
                 if (line.length > 80 && !/[\u4e00-\u9fff]/.test(line)) {
@@ -883,7 +1644,7 @@
                 btn.innerHTML = '<i class="fas fa-volume-high text-sm"></i>';
                 btn.addEventListener('click', () => {
                     const liveText = document.getElementById(`title-${idx}`).textContent.trim();
-                    speak(liveText, 'en-GB');
+                    speakSingle(liveText, 'en-GB');
                 });
                 wrapper.appendChild(content);
                 wrapper.appendChild(btn);
@@ -899,7 +1660,7 @@
                 btn.innerHTML = '<i class="fas fa-volume-high text-sm"></i>';
                 btn.addEventListener('click', () => {
                     const liveText = document.getElementById(`title-${idx}`).textContent.trim();
-                    speak(liveText, 'zh-CN');
+                    speakSingle(liveText, 'zh-CN');
                 });
                 wrapper.appendChild(content);
                 wrapper.appendChild(btn);
@@ -911,7 +1672,7 @@
 
         // ==================== TRANSLATION ====================
         async function translateItem(text, idx) {
-            const key = text + '|v6';
+            const key = text + '|v7';
             if (translationCache[key]) {
                 setTrans(idx, translationCache[key]);
                 return;
@@ -930,7 +1691,7 @@
                 if (!trans) trans = '—';
                 
                 translationCache[key] = trans;
-                localStorage.setItem('ss_cache_v6', JSON.stringify(translationCache));
+                localStorage.setItem('ss_cache_v7', JSON.stringify(translationCache));
                 setTrans(idx, trans);
             } catch (e) {
                 setTrans(idx, '—', true);
@@ -945,15 +1706,11 @@
             if (isError) el.classList.add('text-amber-600');
         }
 
-        // ==================== TTS & QUEUE ====================
-        function speak(text, lang) {
+        // ==================== SINGLE TTS ====================
+        function speakSingle(text, lang) {
             if (!text || text === '...' || text === '—' || text === '翻譯中...') return;
-            
             speechSynthesis.cancel();
             clearTimeout(gapTimeout);
-            isPlaying = false;
-            isPaused = false;
-            isInGap = false;
             
             const u = new SpeechSynthesisUtterance(text);
             u.lang = lang;
@@ -966,6 +1723,7 @@
             speechSynthesis.speak(u);
         }
 
+        // ==================== QUEUE PLAYBACK ====================
         function startPlayback(queue) {
             stopPlayback();
             isPlaying = true;
@@ -974,7 +1732,7 @@
             playQueue = queue;
             currentQueueIndex = -1;
             document.getElementById('miniPlayer').classList.remove('hidden');
-            document.getElementById('pauseBtn').innerHTML = '<i class="fas fa-pause text-[10px]"></i>';
+            updatePauseBtn();
             playStep();
         }
 
@@ -996,65 +1754,123 @@
             
             currentPlayId = item.id;
             highlightCard(item.id);
-            updatePlayer(item);
+            updatePlayerUI(item);
             
             const text = item.original;
             const lang = item.lang === 'en' ? 'en-GB' : 'zh-CN';
             const voice = getBestVoice(lang);
             
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = lang;
-            u.rate = ttsRate;
-            u.pitch = 1;
-            if (voice) u.voice = voice;
+            // Split text into words for intra-item gaps
+            const words = text.split(/\s+/).filter(w => w.length > 0);
             
-            isInGap = false;
+            if (words.length <= 1 || lang === 'zh-CN') {
+                // Single word or Chinese: speak whole text at once
+                speakWordSequence([text], lang, voice, true);
+            } else {
+                // Multiple English words: speak with 0.5s gaps between words
+                speakWordSequence(words, lang, voice, false);
+            }
+        }
+
+        function speakWordSequence(words, lang, voice, isSingle) {
+            let wordIndex = 0;
             
-            u.onend = () => {
-                if (isPlaying && !isPaused) {
+            function speakNextWord() {
+                if (!isPlaying || isPaused) return;
+                if (wordIndex >= words.length) {
+                    // All words spoken, now 3s gap before next item
                     isInGap = true;
                     gapTimeout = setTimeout(() => {
                         isInGap = false;
                         if (isPlaying && !isPaused) playStep();
                     }, 3000);
+                    return;
                 }
-            };
+                
+                const u = new SpeechSynthesisUtterance(words[wordIndex]);
+                u.lang = lang;
+                u.rate = ttsRate;
+                u.pitch = 1;
+                if (voice) u.voice = voice;
+                
+                u.onend = () => {
+                    if (isPlaying && !isPaused) {
+                        wordIndex++;
+                        if (wordIndex < words.length) {
+                            // 0.5s gap between words within same item
+                            gapTimeout = setTimeout(() => {
+                                if (isPlaying && !isPaused) speakNextWord();
+                            }, 500);
+                        } else {
+                            // All words done, 3s gap before next item
+                            isInGap = true;
+                            gapTimeout = setTimeout(() => {
+                                isInGap = false;
+                                if (isPlaying && !isPaused) playStep();
+                            }, 3000);
+                        }
+                    }
+                };
+                
+                u.onerror = () => {
+                    if (isPlaying && !isPaused) {
+                        wordIndex++;
+                        if (wordIndex < words.length) {
+                            gapTimeout = setTimeout(() => {
+                                if (isPlaying && !isPaused) speakNextWord();
+                            }, 500);
+                        } else {
+                            isInGap = true;
+                            gapTimeout = setTimeout(() => {
+                                isInGap = false;
+                                if (isPlaying && !isPaused) playStep();
+                            }, 3000);
+                        }
+                    }
+                };
+                
+                speechSynthesis.speak(u);
+            }
             
-            u.onerror = () => {
-                if (isPlaying && !isPaused) {
-                    isInGap = true;
-                    gapTimeout = setTimeout(() => {
-                        isInGap = false;
-                        if (isPlaying && !isPaused) playStep();
-                    }, 3000);
-                }
-            };
-            
-            speechSynthesis.speak(u);
+            speakNextWord();
         }
 
         function togglePause() {
             if (isPaused) {
-                // Resume
                 isPaused = false;
-                document.getElementById('pauseBtn').innerHTML = '<i class="fas fa-pause text-[10px]"></i>';
+                updatePauseBtn();
                 if (isInGap) {
-                    // We were waiting in gap, continue to next
                     clearTimeout(gapTimeout);
                     isInGap = false;
                     playStep();
                 } else {
-                    // We were mid-speech (cancelled), replay current
+                    // Resume from current position by replaying current item
                     currentQueueIndex--;
                     playStep();
                 }
             } else {
-                // Pause
                 isPaused = true;
-                document.getElementById('pauseBtn').innerHTML = '<i class="fas fa-play text-[10px]"></i>';
+                updatePauseBtn();
                 speechSynthesis.cancel();
                 clearTimeout(gapTimeout);
             }
+        }
+
+        function playPrev() {
+            if (!isPlaying) return;
+            speechSynthesis.cancel();
+            clearTimeout(gapTimeout);
+            isInGap = false;
+            currentQueueIndex = Math.max(-1, currentQueueIndex - 2);
+            if (!isPaused) playStep();
+        }
+
+        function playNextManual() {
+            if (!isPlaying) return;
+            speechSynthesis.cancel();
+            clearTimeout(gapTimeout);
+            isInGap = false;
+            if (!isPaused) playStep();
         }
 
         function stopPlayback() {
@@ -1065,6 +1881,13 @@
             clearTimeout(gapTimeout);
             clearHighlight();
             document.getElementById('miniPlayer').classList.add('hidden');
+        }
+
+        function updatePauseBtn() {
+            const btn = document.getElementById('pauseBtn');
+            btn.innerHTML = isPaused 
+                ? '<i class="fas fa-play text-xs"></i>' 
+                : '<i class="fas fa-pause text-xs"></i>';
         }
 
         function playAll() {
@@ -1083,7 +1906,7 @@
             startPlayback(queue);
         }
 
-        function updatePlayer(item) {
+        function updatePlayerUI(item) {
             document.getElementById('playerText').textContent = item.original;
             document.getElementById('playerProgress').textContent = `${currentQueueIndex + 1} / ${playQueue.length}`;
             document.getElementById('playerBar').style.width = (((currentQueueIndex + 1) / playQueue.length) * 100) + '%';
