@@ -35,10 +35,8 @@
             background-color: #f5f5f0;
             -webkit-tap-highlight-color: transparent;
         }
-        
         .font-serif { font-family: 'Noto Serif TC', 'Songti SC', serif; }
         
-        /* Subtle paper texture */
         .paper-bg {
             background-color: #fafaf8;
             background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.93 0 3.5-1.57 3.5-3.5S13.93 53 12 53s-3.5 1.57-3.5 3.5 1.57 3.5 3.5 3.5z' fill='%239C92AC' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
@@ -72,20 +70,6 @@
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
-        
-        .hide-trans .trans-field { 
-            filter: blur(8px); 
-            user-select: none; 
-            transition: filter 0.25s ease;
-        }
-        .hide-trans .trans-field:hover { filter: blur(0); }
-        
-        .hide-orig .orig-field { 
-            filter: blur(8px); 
-            user-select: none; 
-            transition: filter 0.25s ease;
-        }
-        .hide-orig .orig-field:hover { filter: blur(0); }
         
         input[type=range] {
             -webkit-appearance: none;
@@ -139,6 +123,7 @@
             padding: 2px 8px;
             border-radius: 4px;
             text-transform: uppercase;
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -160,9 +145,6 @@
                 <button onclick="toggleSettings()" class="p-2.5 hover:bg-stone-700 rounded-lg transition text-stone-400" title="語音設定">
                     <i class="fas fa-sliders text-sm"></i>
                 </button>
-                <button onclick="toggleQuiz()" id="quizBtn" class="hidden px-3 py-2 bg-stone-700 hover:bg-stone-600 rounded-lg text-xs font-medium transition border border-stone-600 text-stone-300">
-                    <i class="fas fa-eye-slash mr-1.5"></i>測驗
-                </button>
                 <button onclick="resetApp()" class="p-2.5 hover:bg-stone-700 rounded-lg transition text-stone-400" title="重新開始">
                     <i class="fas fa-rotate-right text-sm"></i>
                 </button>
@@ -183,23 +165,14 @@
                         <label class="text-sm font-semibold text-ink-700">語速</label>
                         <span id="speedVal" class="text-sm font-mono text-accent-600 bg-accent-50 px-2 rounded">1.0x</span>
                     </div>
-                    <input type="range" min="0.5" max="1.5" step="0.1" value="1.0" id="rateSlider" oninput="updateRate(this.value)" class="w-full">
-                    <div class="flex justify-between text-[10px] text-ink-500 mt-1"><span>慢</span><span>正常</span><span>快</span></div>
+                    <input type="range" min="0.3" max="3.0" step="0.1" value="1.0" id="rateSlider" oninput="updateRate(this.value)" class="w-full">
+                    <div class="flex justify-between text-[10px] text-ink-500 mt-1"><span>0.3x</span><span>1.0x</span><span>3.0x</span></div>
                 </div>
                 
                 <div>
-                    <label class="text-sm font-semibold text-ink-700 block mb-2">聲音偏好</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button onclick="setGender('any')" id="g-any" class="gender-btn px-3 py-2 rounded-lg border-2 border-accent-600 bg-accent-50 text-accent-700 text-xs font-bold transition">自動</button>
-                        <button onclick="setGender('female')" id="g-female" class="gender-btn px-3 py-2 rounded-lg border border-paper-300 text-ink-600 text-xs font-bold hover:border-paper-400 transition">女聲</button>
-                        <button onclick="setGender('male')" id="g-male" class="gender-btn px-3 py-2 rounded-lg border border-paper-300 text-ink-600 text-xs font-bold hover:border-paper-400 transition">男聲</button>
-                    </div>
-                </div>
-                
-                <div>
-                    <label class="text-sm font-semibold text-ink-700 block mb-2">選擇聲音</label>
+                    <label class="text-sm font-semibold text-ink-700 block mb-2">朗讀聲音</label>
                     <select id="voiceSelect" onchange="saveVoicePref()" class="w-full rounded-lg border border-paper-300 p-2.5 text-sm focus:ring-2 focus:ring-accent-600 focus:border-transparent bg-white"></select>
-                    <p class="text-[11px] text-ink-500 mt-1.5">系統會根據語言自動選擇對應聲音</p>
+                    <p class="text-[11px] text-ink-500 mt-1.5">系統自動根據語言選擇對應聲音，中文預設使用普通話</p>
                 </div>
                 
                 <div class="bg-white rounded-lg p-4 border border-paper-200">
@@ -251,7 +224,7 @@
                     <div class="relative flex justify-center text-xs"><span class="px-2 bg-white text-ink-500">或貼上文字</span></div>
                 </div>
 
-                <textarea id="directText" rows="3" class="w-full rounded-lg border border-paper-300 p-3.5 text-sm focus:ring-2 focus:ring-accent-600 focus:border-transparent resize-none bg-paper-50" placeholder="貼上詞彙（每行一個），或將截圖貼到頁面上..."></textarea>
+                <textarea id="directText" rows="4" class="w-full rounded-lg border border-paper-300 p-3.5 text-sm focus:ring-2 focus:ring-accent-600 focus:border-transparent resize-none bg-paper-50" placeholder="貼上詞彙（每行一個），或將截圖貼到頁面上..."></textarea>
                 
                 <button onclick="processDirectText()" class="w-full btn-primary font-bold py-3 rounded-lg flex items-center justify-center gap-2 shadow-md shadow-indigo-100">
                     <i class="fas fa-wand-magic-sparkles"></i>生成學習卡
@@ -276,7 +249,7 @@
 
         <!-- SMART REVIEW -->
         <section id="smartReview" class="hidden card rounded-xl overflow-hidden">
-            <div class="p-4 border-b border-amber-200 bg-amber-50/50 flex items-center justify-between">
+            <div class="p-4 border-b border-amber-100 bg-amber-50/50 flex items-center justify-between">
                 <h2 class="font-bold text-amber-900 text-sm flex items-center gap-2 font-serif">
                     <i class="fas fa-sparkles text-amber-600"></i>智能清理結果
                 </h2>
@@ -286,7 +259,7 @@
             <div id="analysisSummary" class="px-4 pt-4 pb-2 space-y-2"></div>
             
             <div class="p-4">
-                <label class="text-xs font-semibold text-ink-500 mb-1.5 block">提取到的詞彙（可直接修改）</label>
+                <label class="text-xs font-semibold text-ink-500 mb-1.5 block">提取到的詞彙（可直接修改、刪除或合併）</label>
                 <textarea id="reviewText" rows="8" class="w-full rounded-lg border border-amber-200 p-3.5 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent resize-none font-mono leading-relaxed bg-amber-50/20"></textarea>
                 
                 <div class="flex gap-2 mt-4">
@@ -350,15 +323,13 @@
     <script>
         // ==================== STATE ====================
         let vocabData = [];
-        let translationCache = JSON.parse(localStorage.getItem('ss_cache_v3') || '{}');
+        let translationCache = JSON.parse(localStorage.getItem('ss_cache_v4') || '{}');
         let voices = [];
         let currentWorker = null;
         let detectedSubject = null;
         let removedHeaders = [];
         let ttsRate = parseFloat(localStorage.getItem('ss_rate') || '1.0');
-        let genderPref = localStorage.getItem('ss_gender') || 'any';
         let selectedVoiceUri = localStorage.getItem('ss_voice') || null;
-        let isQuiz = false;
 
         // ==================== SUBJECT KEYWORDS ====================
         const SUBJECTS = {
@@ -374,24 +345,20 @@
 
         // ==================== HEADER DETECTION ====================
         const HEADER_PATTERNS = [
-            // School & Meta
             'school','college','university','foundation','secondary','primary','kindergarten','academy','institute',
-            'name','date','class','form','f\\.','s\\.','worksheet','exam','examination','test','quiz','assessment',
+            'name','date','class','form','f.','s.','worksheet','exam','examination','test','quiz','assessment',
             'subject','teacher','student','pupil','score','mark','grade','grading','period','time','duration','minutes',
             'instruction','direction','answer','question','paper','homework','assignment','scope','syllabus',
             'package','term','first term','second term','mid-term','final','year','academic',
             '學校','學院','大學','中學','小學','幼稚園','書院','姓名','日期','班級','班別','工作紙','測驗','考試',
             '科目','老師','學生','分數','成績','級別','時間','時限','分鐘','指示','答案','問題','試卷','功課','作業',
             '範圍','課程','學期','上學期','下學期','期中','期末','年度','學年',
-            // Format types
             'true or false','time sense','matching','fill in the blank','multiple choice','short answer',
             'data-based','structured question','essay question','long question',
             '判斷題','配對','填充','選擇題','短答題','資料題','長問題',
-            // Section labels
             'concepts and vocabulary','vocabulary list','word list','glossary','key terms',
             '概念','詞彙','詞語','詞語表','字詞','關鍵詞',
-            // Generic structural
-            'page','total','no\\.','#','id','serial','index','item','number','note','remark',
+            'page','total','no.','#','id','serial','index','item','number','note','remark',
             '頁','總分','編號','項目','備註'
         ];
 
@@ -405,11 +372,11 @@
             const l = line.trim();
             if (!l) return true;
             
-            // Very short lines that look like labels
-            if (l.length < 3) return true;
+            // Single section letters: A B C D (but not "A" as a vocab word)
+            if (l.length === 1 && /^[A-Z]$/.test(l)) return true;
             
-            // Section letters like A. B. C. D.
-            if (/^[A-Z][\.\)]\s/.test(l)) return true;
+            // Section labels like A. B. C. D.
+            if (/^[A-Z][\.\)]\s/.test(l) && l.length < 50) return true;
             
             // Date patterns
             if (/^\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}$/.test(l)) return true;
@@ -418,31 +385,18 @@
             // ID patterns
             if (/^(no\.?|#|id|s\d+|f\.?\d+|p\.?\d+|class\s*\d*)/i.test(l)) return true;
             
-            // ALL CAPS short lines (likely headers)
-            if (l === l.toUpperCase() && l.length < 40 && /[A-Z]{4,}/.test(l)) return true;
+            // ALL CAPS with spaces (titles like "CONCEPTS AND VOCABULARY")
+            if (l === l.toUpperCase() && l.length > 6 && l.length < 50 && l.includes(' ')) return true;
             
             // Contains header keywords
-            const lower = l.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,' ');
-            if (HEADER_PATTERNS.some(p => lower.includes(' ' + p + ' ') || lower.startsWith(p + ' ') || lower.endsWith(' ' + p) || lower === p)) return true;
+            const lower = ' ' + l.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,' ') + ' ';
+            if (HEADER_PATTERNS.some(p => lower.includes(' ' + p + ' '))) return true;
             
-            // Table section headers (topic titles that span tables)
+            // Table section headers
             if (TABLE_HEADER_PATTERNS.some(p => lower.includes(p))) return true;
             
-            // Lines that look like table category headers: 2-5 words, Title Case, often surrounded by shorter items
-            const words = l.split(/\s+/).filter(w => w.length > 0);
-            if (words.length >= 2 && words.length <= 6 && l[0] === l[0].toUpperCase()) {
-                // Check if surrounded by much shorter lines (table cell pattern)
-                const prev = allLines[index - 1]?.trim().length || 0;
-                const next = allLines[index + 1]?.trim().length || 0;
-                if ((prev > 0 && prev < l.length * 0.6) || (next > 0 && next < l.length * 0.6)) {
-                    // Likely a table header spanning multiple columns
-                    if (/^(the|a|an)\s/i.test(l)) return true; // "The American Revolution"
-                    if (/(expansion|revolution|war|empire|dynasty|age|era|period)$/i.test(l)) return true;
-                }
-            }
-            
-            // Format lists (True or False, etc.)
-            if (/^(true|false|matching|fill|multiple|short|data|time|essay|structured)/i.test(l) && l.length < 40) return true;
+            // Format lists
+            if (/^(true or false|time sense|matching|fill in|multiple choice|short answer|data-based|structured|essay)/i.test(l)) return true;
             
             return false;
         }
@@ -451,7 +405,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('rateSlider').value = ttsRate;
             document.getElementById('speedVal').textContent = ttsRate + 'x';
-            setGender(genderPref, false);
             
             if (speechSynthesis.onvoiceschanged !== undefined) {
                 speechSynthesis.onvoiceschanged = initVoices;
@@ -487,23 +440,11 @@
             localStorage.setItem('ss_rate', ttsRate);
         }
 
-        function setGender(g, save = true) {
-            genderPref = g;
-            if (save) localStorage.setItem('ss_gender', g);
-            document.querySelectorAll('.gender-btn').forEach(b => {
-                b.classList.remove('border-accent-600', 'bg-accent-50', 'text-accent-700', 'border-2');
-                b.classList.add('border-paper-300', 'text-ink-600');
-            });
-            const active = document.getElementById('g-' + g);
-            active.classList.remove('border-paper-300', 'text-ink-600');
-            active.classList.add('border-accent-600', 'bg-accent-50', 'text-accent-700', 'border-2');
-            populateVoiceSelector();
-        }
-
         function populateVoiceSelector() {
             const sel = document.getElementById('voiceSelect');
             sel.innerHTML = '';
             
+            // Group by language
             const groups = {};
             voices.forEach(v => {
                 const lang = v.lang;
@@ -530,13 +471,28 @@
             localStorage.setItem('ss_voice', selectedVoiceUri);
         }
 
-        function getBestVoice(langCode) {
-            let pool = voices.filter(v => v.lang.startsWith(langCode));
-            if (pool.length === 0) pool = voices;
+        function getBestVoice(langCode, forceVoice = null) {
+            if (forceVoice) return forceVoice;
             
-            if (genderPref !== 'any') {
-                const filtered = pool.filter(v => guessGender(v) === genderPref);
-                if (filtered.length > 0) pool = filtered;
+            let pool = voices.filter(v => {
+                const vLang = v.lang.toLowerCase();
+                const target = langCode.toLowerCase();
+                return vLang === target || vLang.startsWith(target + '-');
+            });
+            
+            if (pool.length === 0) {
+                pool = voices.filter(v => v.lang.toLowerCase().startsWith(langCode.split('-')[0].toLowerCase()));
+            }
+            
+            // CRITICAL: Exclude Cantonese/Hong Kong voices for Chinese
+            if (langCode.toLowerCase().startsWith('zh')) {
+                pool = pool.filter(v => {
+                    const n = v.name.toLowerCase();
+                    const l = v.lang.toLowerCase();
+                    return !n.includes('cantonese') && !n.includes('hong kong') && !n.includes('hk') && 
+                           !n.includes('sin-ji') && !n.includes('廣東') && !n.includes('粵') && 
+                           !l.includes('zh-hk') && !l.includes('hant-hk') && !l.includes('zh-hant-hk');
+                });
             }
             
             if (selectedVoiceUri) {
@@ -544,22 +500,26 @@
                 if (selected) return selected;
             }
             
-            // Prefer high-quality voices
-            const quality = pool.find(v => /Google|Apple|Microsoft|Samsung/.test(v.name));
-            return quality || pool[0];
-        }
-
-        function guessGender(voice) {
-            const n = voice.name.toLowerCase();
-            const female = ['samantha','victoria','karen','mei-jia','ting-ting','hanhan','tracy','lesya','yuna','laura','anna','claire','tian-tian','yaoyao'];
-            const male = ['daniel','fred','lee','alex','tom','david','paul','john','tony','meijia'];
-            if (female.some(f => n.includes(f))) return 'female';
-            if (male.some(m => n.includes(m))) return 'male';
-            return 'female';
+            // Auto-pick most common quality voice
+            const quality = pool.find(v => /Google|Apple|Microsoft/.test(v.name));
+            return quality || pool[0] || voices[0];
         }
 
         function previewTTS() {
-            speak('這是語音測試，當前使用普通話朗讀。', 'zh-CN', true);
+            const sel = document.getElementById('voiceSelect');
+            const voice = voices.find(v => v.voiceURI === sel.value);
+            
+            let testText = '這是語音測試，當前使用普通話朗讀。';
+            let lang = 'zh-CN';
+            
+            if (voice) {
+                lang = voice.lang;
+                if (lang.startsWith('en')) {
+                    testText = 'This is a voice test. The quick brown fox jumps over the lazy dog.';
+                }
+            }
+            
+            speak(testText, lang, true, voice);
         }
 
         // ==================== SUBJECT DETECTION ====================
@@ -586,7 +546,24 @@
             reader.onload = async (e) => {
                 try {
                     if (currentWorker) await currentWorker.terminate();
-                    currentWorker = await Tesseract.createWorker('eng+chi_tra');
+                    
+                    // Tesseract v5 API: logger goes in createWorker config
+                    currentWorker = await Tesseract.createWorker('eng+chi_tra', 1, {
+                        logger: m => {
+                            const bar = document.getElementById('ocrBar');
+                            const status = document.getElementById('ocrStatus');
+                            if (m.status === 'recognizing text') {
+                                bar.style.width = Math.round(m.progress * 100) + '%';
+                                status.textContent = `正在辨識... ${Math.round(m.progress * 100)}%`;
+                            } else if (m.status === 'loading language traineddata') {
+                                status.textContent = '正在載入語言模型...';
+                            } else if (m.status === 'initializing api') {
+                                status.textContent = '正在初始化辨識引擎...';
+                            } else {
+                                status.textContent = m.status;
+                            }
+                        }
+                    });
                     
                     const { data: { text } } = await currentWorker.recognize(e.target.result);
                     await currentWorker.terminate();
@@ -594,6 +571,7 @@
                     
                     processRawText(text);
                 } catch (err) {
+                    console.error(err);
                     alert('辨識錯誤：' + err.message);
                     showScreen('inputSection');
                 }
@@ -629,14 +607,14 @@
             
             if (detectedSubject) {
                 html += `<div class="flex items-center gap-2 text-xs font-semibold text-accent-700 bg-accent-50 px-3 py-2 rounded-md border border-accent-100">
-                    <i class="fas fa-bookmark"></i>偵測學科：<span class="font-bold">${SUBJECTS[detectedSubject].name}</span>（翻譯將採用相關語境）
+                    <i class="fas fa-bookmark"></i>偵測學科：<span class="font-bold">${SUBJECTS[detectedSubject].name}</span>
                 </div>`;
             }
             
             if (removedHeaders.length > 0) {
                 html += `<div class="flex items-start gap-2 text-xs text-ink-600 bg-paper-100 px-3 py-2 rounded-md border border-paper-200">
                     <i class="fas fa-filter mt-0.5 text-ink-400"></i>
-                    <div>已過濾 ${removedHeaders.length} 項無關內容（標題、格式說明等）</div>
+                    <div>已過濾 ${removedHeaders.length} 項無關內容（標題、格式說明、表格標頭）</div>
                 </div>`;
             } else {
                 html += `<div class="flex items-center gap-2 text-xs text-emerald-700 bg-emerald-50 px-3 py-2 rounded-md border border-emerald-100">
@@ -645,6 +623,19 @@
             }
             
             container.innerHTML = html;
+        }
+
+        // ==================== DIRECT TEXT (NO FILTERING) ====================
+        function processDirectText() {
+            const text = document.getElementById('directText').value;
+            if (!text.trim()) return;
+            
+            // For pasted text: do NOT filter headers, trust the user's input
+            detectedSubject = detectSubject(text);
+            removedHeaders = [];
+            document.getElementById('reviewText').value = text;
+            renderAnalysisSummary();
+            showScreen('smartReview');
         }
 
         // ==================== LANGUAGE & EXTRACTION ====================
@@ -658,37 +649,44 @@
             return 'unknown';
         }
 
-        function cleanItem(t) {
-            return t.replace(/^\s*[\d\.\)\(-—–]+\s*/, '').replace(/\s+/g, ' ').trim();
-        }
-
         function extractItems(text) {
-            // For table-like OCR output, try to split by lines first
-            const lines = text.split('\n').map(cleanItem).filter(l => l.length > 0);
-            const avgLen = lines.reduce((a, b) => a + b.length, 0) / (lines.length || 1);
+            if (!text || !text.trim()) return [];
             
-            // If looks like a clean list (short lines), use as-is
-            if (lines.length >= 2 && avgLen < 55) {
-                return [...new Set(lines)];
-            }
+            // Primary: split by lines. This preserves multi-word phrases like "Coastal footholds"
+            let lines = text.split('\n')
+                .map(l => l.trim())
+                .filter(l => l.length > 0 && l.length < 150);
             
-            // Fallback: extract word-like tokens
-            const matches = text.match(/[a-zA-Z]+(?:[\s'-]+[a-zA-Z]+)*|[\u4e00-\u9fff\u3400-\u4dbf]+/g);
-            return [...new Set((matches || []).map(cleanItem).filter(l => l.length > 0))];
+            // Remove lines that are mostly garbage/symbols
+            lines = lines.filter(l => {
+                const realChars = (l.match(/[a-zA-Z\u4e00-\u9fff0-9]/g) || []).length;
+                const totalChars = l.length;
+                return realChars / totalChars > 0.35; // At least 35% real content
+            });
+            
+            // Clean weird OCR artifacts but preserve word structure
+            lines = lines.map(l => {
+                let cleaned = l;
+                // Replace table drawing characters and weird symbols with space
+                cleaned = cleaned.replace(/[|│├┤┬┴┼═╪╫╬□■▪▫]/g, ' ');
+                // Replace ligatures
+                cleaned = cleaned.replace(/ﬁ/g, 'fi').replace(/ﬂ/g, 'fl');
+                // Remove other non-content symbols but keep letters, numbers, Chinese, basic punctuation
+                cleaned = cleaned.replace(/[^a-zA-Z0-9\s\-'\/\u4e00-\u9fff\u3400-\u4dbf\u3000-\u303f\uff00-\uffef.,;:!?()]/g, ' ');
+                cleaned = cleaned.replace(/\s+/g, ' ').trim();
+                return cleaned;
+            }).filter(l => l.length > 0);
+            
+            // Deduplicate while preserving order
+            return [...new Set(lines)];
         }
 
         // ==================== GENERATION ====================
         function confirmReview() { generateCards(document.getElementById('reviewText').value); }
         function skipReview() { generateCards(document.getElementById('reviewText').value); }
-        function processDirectText() {
-            const text = document.getElementById('directText').value;
-            if (!text.trim()) return;
-            processRawText(text);
-        }
 
         async function generateCards(text) {
             showScreen('resultsSection');
-            document.getElementById('quizBtn').classList.remove('hidden');
             
             const items = extractItems(text);
             const container = document.getElementById('vocabList');
@@ -714,7 +712,7 @@
                 vocabData.push({ id: i, original: item, lang: lang });
                 
                 if (lang === 'en') {
-                    setTimeout(() => translateItem(item, i), i * 400);
+                    setTimeout(() => translateItem(item, i), i * 350);
                 }
             });
         }
@@ -726,78 +724,102 @@
             div.style.animationDelay = (idx * 0.04) + 's';
             div.id = `card-${idx}`;
             
+            const container = document.createElement('div');
+            container.className = 'flex items-start gap-4';
+            
+            const content = document.createElement('div');
+            content.className = 'flex-1 min-w-0';
+            
+            // Title row
+            const titleRow = document.createElement('div');
+            titleRow.className = 'flex items-center gap-2.5 mb-1';
+            
+            const tag = document.createElement('span');
+            tag.className = `tag ${isEn ? 'bg-blue-100 text-blue-700' : 'bg-rose-100 text-rose-700'}`;
+            tag.textContent = isEn ? 'EN' : '中';
+            
+            const title = document.createElement('h3');
+            title.className = 'editable text-lg font-bold text-ink-800 font-serif';
+            title.contentEditable = true;
+            title.textContent = original;
+            title.addEventListener('blur', () => updateOriginal(idx, title));
+            
+            titleRow.appendChild(tag);
+            titleRow.appendChild(title);
+            content.appendChild(titleRow);
+            
             if (isEn) {
-                // English: show EN + CN translation. TTS reads EN.
-                div.innerHTML = `
-                    <div class="flex items-start gap-4">
-                        <div class="flex-1 min-w-0 space-y-3">
-                            <div class="flex items-center gap-2.5">
-                                <span class="tag bg-blue-100 text-blue-700">EN</span>
-                                <h3 contenteditable="true" onblur="updateOriginal(${idx}, this)" class="editable orig-field text-lg font-bold text-ink-800 leading-snug font-serif">${escapeHtml(original)}</h3>
-                            </div>
-                            <div class="flex items-center gap-2.5 pl-[3px]">
-                                <span class="tag bg-rose-100 text-rose-700">中</span>
-                                <div class="flex items-center gap-2">
-                                    <p id="trans-${idx}" class="trans-field text-[15px] text-ink-600 font-medium shimmer w-28 h-5 rounded inline-block">翻譯中...</p>
-                                    <button onclick="editTrans(${idx})" class="text-ink-400 hover:text-accent-600 transition"><i class="fas fa-pen text-[10px]"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <button onclick="speak('${escapeHtml(original)}', 'en-US')" class="w-10 h-10 rounded-lg bg-accent-50 hover:bg-accent-100 active:scale-95 transition flex items-center justify-center text-accent-600 border border-accent-100" title="朗讀英文">
-                                <i class="fas fa-volume-high text-sm"></i>
-                            </button>
-                            <button id="tts-${idx}" onclick="speakTrans(${idx}, 'zh-CN')" class="w-10 h-10 rounded-lg bg-paper-100 hover:bg-paper-200 active:scale-95 transition flex items-center justify-center text-ink-400 opacity-40 pointer-events-none border border-paper-200" title="朗讀中文翻譯">
-                                <i class="fas fa-headphones text-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
+                // Translation row (display only, no TTS, no edit)
+                const transRow = document.createElement('div');
+                transRow.className = 'flex items-center gap-2.5 pl-[3px] mt-1';
+                
+                const transTag = document.createElement('span');
+                transTag.className = 'tag bg-rose-100 text-rose-700';
+                transTag.textContent = '中';
+                
+                const transText = document.createElement('p');
+                transText.id = `trans-${idx}`;
+                transText.className = 'text-[15px] text-ink-600 font-medium shimmer w-28 h-5 rounded inline-block';
+                transText.textContent = '翻譯中...';
+                
+                transRow.appendChild(transTag);
+                transRow.appendChild(transText);
+                content.appendChild(transRow);
+                
+                // TTS button for English ONLY
+                const btn = document.createElement('button');
+                btn.className = 'w-10 h-10 rounded-lg bg-accent-50 hover:bg-accent-100 active:scale-95 transition flex items-center justify-center text-accent-600 border border-accent-100 flex-shrink-0';
+                btn.title = '朗讀英文';
+                btn.innerHTML = '<i class="fas fa-volume-high text-sm"></i>';
+                btn.addEventListener('click', () => speak(original, 'en-US'));
+                container.appendChild(content);
+                container.appendChild(btn);
             } else {
-                // Chinese: show CN ONLY. No translation. TTS reads Putonghua (zh-CN).
-                div.innerHTML = `
-                    <div class="flex items-start gap-4">
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-2.5 mb-1">
-                                <span class="tag bg-rose-100 text-rose-700">中</span>
-                                <h3 contenteditable="true" onblur="updateOriginal(${idx}, this)" class="editable text-xl font-bold text-ink-800 leading-snug font-serif">${escapeHtml(original)}</h3>
-                            </div>
-                            <p class="text-xs text-ink-400 mt-1">繁體中文詞彙 · 普通話朗讀</p>
-                        </div>
-                        <button onclick="speak('${escapeHtml(original)}', 'zh-CN')" class="w-10 h-10 rounded-lg bg-rose-50 hover:bg-rose-100 active:scale-95 transition flex items-center justify-center text-rose-600 border border-rose-100" title="普通話朗讀">
-                            <i class="fas fa-volume-high text-sm"></i>
-                        </button>
-                    </div>
-                `;
+                // Chinese note
+                const note = document.createElement('p');
+                note.className = 'text-xs text-ink-400 mt-1';
+                note.textContent = '繁體中文詞彙 · 普通話朗讀';
+                content.appendChild(note);
+                
+                // TTS button for Chinese (zh-CN Putonghua)
+                const btn = document.createElement('button');
+                btn.className = 'w-10 h-10 rounded-lg bg-rose-50 hover:bg-rose-100 active:scale-95 transition flex items-center justify-center text-rose-600 border border-rose-100 flex-shrink-0';
+                btn.title = '普通話朗讀';
+                btn.innerHTML = '<i class="fas fa-volume-high text-sm"></i>';
+                btn.addEventListener('click', () => speak(original, 'zh-CN'));
+                container.appendChild(content);
+                container.appendChild(btn);
             }
+            
+            div.appendChild(container);
             return div;
         }
 
         // ==================== TRANSLATION ====================
         async function translateItem(text, idx) {
-            const key = text + '|' + (detectedSubject || 'general');
+            const key = text + '|v4';
             if (translationCache[key]) {
                 setTrans(idx, translationCache[key]);
                 return;
             }
             
-            let query = text;
-            if (detectedSubject) {
-                query = text + ' (' + SUBJECTS[detectedSubject].name + ' 歷史)';
-            }
-            
             try {
-                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(query)}&langpair=en|zh-TW`);
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|zh-TW`);
                 const data = await res.json();
-                let trans = data.responseData?.translatedText || '—';
-                trans = trans.replace(/\(.*?\)/g, '').replace(/MYMEMORY WARNING.*/i, '').trim();
+                
+                let trans = data.responseData?.translatedText;
+                if (!trans || trans.toLowerCase() === text.toLowerCase()) {
+                    trans = '—';
+                } else {
+                    trans = trans.replace(/MYMEMORY WARNING.*/i, '').replace(/\s+/g, ' ').trim();
+                }
                 if (!trans) trans = '—';
                 
                 translationCache[key] = trans;
-                localStorage.setItem('ss_cache_v3', JSON.stringify(translationCache));
+                localStorage.setItem('ss_cache_v4', JSON.stringify(translationCache));
                 setTrans(idx, trans);
             } catch (e) {
-                setTrans(idx, '翻譯失敗', true);
+                setTrans(idx, '—', true);
             }
         }
 
@@ -807,26 +829,6 @@
             el.textContent = text;
             el.classList.remove('shimmer', 'w-28', 'h-5', 'inline-block');
             if (isError) el.classList.add('text-amber-600');
-            
-            const btn = document.getElementById(`tts-${idx}`);
-            if (btn) {
-                btn.classList.remove('opacity-40', 'pointer-events-none');
-                btn.dataset.text = text;
-            }
-        }
-
-        function editTrans(idx) {
-            const el = document.getElementById(`trans-${idx}`);
-            const current = el.textContent;
-            const input = prompt('修改翻譯：', current === '翻譯中...' ? '' : current);
-            if (input !== null) {
-                el.textContent = input || '—';
-                const btn = document.getElementById(`tts-${idx}`);
-                if (btn) btn.dataset.text = input || '—';
-                const orig = vocabData.find(v => v.id === idx)?.original;
-                if (orig) translationCache[orig + '|' + (detectedSubject || 'general')] = input;
-                localStorage.setItem('ss_cache_v3', JSON.stringify(translationCache));
-            }
         }
 
         function updateOriginal(idx, el) {
@@ -836,8 +838,8 @@
         }
 
         // ==================== TTS ====================
-        function speak(text, lang, forcePreview = false) {
-            if (!text || text === '...' || text === '—' || text === '翻譯中...' || text.includes('失敗')) return;
+        function speak(text, lang, forcePreview = false, forcedVoice = null) {
+            if (!text || text === '...' || text === '—' || text === '翻譯中...') return;
             
             speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(text);
@@ -845,7 +847,7 @@
             u.rate = ttsRate;
             u.pitch = 1;
             
-            const voice = getBestVoice(lang);
+            const voice = getBestVoice(lang, forcedVoice);
             if (voice) u.voice = voice;
             
             if (!forcePreview) {
@@ -860,12 +862,6 @@
             };
             
             speechSynthesis.speak(u);
-        }
-
-        function speakTrans(idx, lang) {
-            const btn = document.getElementById(`tts-${idx}`);
-            const text = btn?.dataset.text;
-            if (text) speak(text, lang);
         }
 
         function stopSpeech() {
@@ -883,23 +879,7 @@
             });
         }
 
-        // ==================== QUIZ & EXPORT ====================
-        function toggleQuiz() {
-            isQuiz = !isQuiz;
-            const btn = document.getElementById('quizBtn');
-            const list = document.getElementById('vocabList');
-            
-            if (isQuiz) {
-                list.classList.add('hide-trans');
-                btn.innerHTML = '<i class="fas fa-eye mr-1.5"></i>顯示';
-                btn.classList.add('bg-stone-600');
-            } else {
-                list.classList.remove('hide-trans');
-                btn.innerHTML = '<i class="fas fa-eye-slash mr-1.5"></i>測驗';
-                btn.classList.remove('bg-stone-600');
-            }
-        }
-
+        // ==================== EXPORT ====================
         function exportCSV() {
             let csv = '\uFEFF原文,語言,翻譯,學科\n';
             vocabData.forEach(d => {
@@ -925,10 +905,7 @@
             document.getElementById('directText').value = '';
             document.getElementById('reviewText').value = '';
             document.getElementById('ocrBar').style.width = '0%';
-            document.getElementById('quizBtn').classList.add('hidden');
-            document.getElementById('quizBtn').innerHTML = '<i class="fas fa-eye-slash mr-1.5"></i>測驗';
             document.getElementById('subjectBadge').classList.add('hidden');
-            isQuiz = false;
             detectedSubject = null;
             removedHeaders = [];
             vocabData = [];
@@ -936,12 +913,6 @@
             speechSynthesis.cancel();
             document.getElementById('miniPlayer').classList.add('hidden');
             showScreen('inputSection');
-        }
-
-        function escapeHtml(text) {
-            const d = document.createElement('div');
-            d.textContent = text;
-            return d.innerHTML;
         }
     </script>
 </body>
