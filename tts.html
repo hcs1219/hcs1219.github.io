@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#4f46e5">
-    <title>TTS — 詞語朗讀 · 聽寫練習</title>
+    <title>TTS — 詞語朗讀 · 聽寫練習 (Local Engine)</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://js.puter.com/v2/"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -204,14 +205,14 @@
             <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mx-auto mb-4 animate-bounce shadow-md shadow-blue-100">
                 <i class="fas fa-bolt-lightning text-white text-sm"></i>
             </div>
-            <h3 class="font-bold text-ink-800 mb-1 font-serif">雲端智能析取中...</h3>
-            <p id="ocrStatus" class="text-xs text-ink-500 max-w-xs mx-auto">正在運用 Edge LLM 完美過濾印刷表頭、非必要指令句及手寫雜訊筆跡</p>
+            <h3 class="font-bold text-ink-800 mb-1 font-serif">本地隱私影像解析中...</h3>
+            <p id="ocrStatus" class="text-xs text-ink-500 max-w-xs mx-auto">正在初始化本地文字辨識核心，完全不需登入與上傳雲端...</p>
         </section>
 
         <section id="resultsSection" class="hidden space-y-4">
             <div id="extractBanner" class="hidden text-xs bg-stone-800 text-stone-200 px-3 py-2 rounded-lg flex justify-between items-center shadow-sm font-sans">
                 <span id="extractInfo" class="flex items-center gap-1.5"></span>
-                <span id="subjectBadge" class="text-[10px] font-bold bg-blue-600 text-white px-2 py-0.5 rounded tracking-wide uppercase"></span>
+                <span id="subjectBadge" class="text-[10px] font-bold bg-blue-600 text-white px-2 py-0.5 rounded tracking-wide uppercase">本地引擎</span>
             </div>
             
             <div class="flex items-center justify-between px-1">
@@ -276,7 +277,6 @@
     <script>
         // STRICT SPECIFICATION: Curated set of high-quality internal OS voices only. No Cantonese variants.
         const DICTATION_CURATED_VOICES = [
-            // British Accent Base Group
             { name: 'Daniel', lang: 'en-GB', sex: 'male', matchers: ['daniel', 'en-gb-language', 'united kingdom'] },
             { name: 'Kate', lang: 'en-GB', sex: 'female', matchers: ['kate'] },
             { name: 'Serena', lang: 'en-GB', sex: 'female', matchers: ['serena'] },
@@ -285,24 +285,20 @@
             { name: 'Microsoft George', lang: 'en-GB', sex: 'male', matchers: ['george', 'desktop'] },
             { name: 'Microsoft Hazel', lang: 'en-GB', sex: 'female', matchers: ['hazel', 'desktop'] },
             { name: 'Microsoft Susan', lang: 'en-GB', sex: 'female', matchers: ['susan', 'desktop'] },
-            // American Accent Group
             { name: 'Samantha', lang: 'en-US', sex: 'female', matchers: ['samantha'] },
             { name: 'Alex', lang: 'en-US', sex: 'male', matchers: ['alex'] },
             { name: 'Google US English', lang: 'en-US', sex: 'female', matchers: ['google us english'] },
             { name: 'Microsoft David', lang: 'en-US', sex: 'male', matchers: ['david', 'desktop'] },
             { name: 'Microsoft Zira', lang: 'en-US', sex: 'female', matchers: ['zira', 'desktop'] },
-            // Chinese Standard Putonghua Group
             { name: 'Ting-Ting', lang: 'zh-CN', sex: 'female', matchers: ['ting-ting', 'tingting'] },
             { name: 'Google 普通話', lang: 'zh-CN', sex: 'female', matchers: ['普通话', 'mandarin china', 'zh-cn'] },
             { name: 'Microsoft Huihui', lang: 'zh-CN', sex: 'female', matchers: ['huihui'] },
             { name: 'Microsoft Yaoyao', lang: 'zh-CN', sex: 'female', matchers: ['yaoyao'] },
-            // Fallback Only Segment
             { name: 'Mei-Jia', lang: 'zh-TW', sex: 'female', matchers: ['mei-jia', 'meijia', 'taiwan', 'zh-tw'] }
         ];
 
         let vocabCardsArray = [];
         let globalSpeechVoices = [];
-        let currentDetectedSubject = "General";
         
         // Brand Isolated Local Storage Namespace
         let playbackSpeedRate = parseFloat(localStorage.getItem('tts_rate') || '1.0');
@@ -402,14 +398,13 @@
                     return voiceTemplate.matchers.some(keyword => cleanSysName.includes(keyword) || cleanSysUri.includes(keyword));
                 });
                 
-                // CRITICAL EXCLUSION RULE: Force strict check against Cantonese signatures
                 if (nativeMatch) {
                     const checkName = nativeMatch.name.toLowerCase();
                     const checkLang = nativeMatch.lang.toLowerCase();
                     if (checkLang.includes('hk') || checkLang.includes('tw') && voiceTemplate.lang !== 'zh-TW' || 
                         checkName.includes('cantonese') || checkName.includes('hong') || 
                         checkName.includes('sin-ji') || checkName.includes('廣東') || checkName.includes('粵')) {
-                        return; // Forbidden Cantonese match skipped
+                        return; // Exclusion Layer: Skip Cantonese variants
                     }
                     
                     if (selectedGenderPref === 'any' || voiceTemplate.sex === selectedGenderPref) {
@@ -452,7 +447,6 @@
                 const vl = v.lang.toLowerCase();
                 const vn = v.name.toLowerCase();
                 
-                // Cantonese mitigation layer safeguard
                 if (vn.includes('cantonese') || vn.includes('hongkong') || vl.includes('hk') || vn.includes('廣東')) {
                     return false;
                 }
@@ -477,74 +471,62 @@
             return initialFilterPool.find(v => v.voiceURI === customVoiceSelectionUri) || initialFilterPool[0] || globalSpeechVoices[0];
         }
 
-        // ==================== CLOUD CONTEXT EXTRACTOR (PUTER) ====================
+        // ==================== LOCAL ANONYMOUS OCR INTAKE ENGINE ====================
         window.handleImage = async function(file) {
             if (!file) return;
             toggleViewStage('ocrProgress');
+            const statusEl = document.getElementById('ocrStatus');
+            statusEl.textContent = "正在發動本地分析核心...";
             
             try {
-                const imgDataUri = await readAsDataURLAsync(file);
+                // Initialize Tesseract worker local configuration using combined script resources
+                const worker = await Tesseract.createWorker('eng+chi_tra');
                 
-                const layoutPrompt = `Analyze this educational worksheet text snippet image carefully.
-Tasks:
-1. Identify the core scholastic theme/subject context (e.g. History, Mathematics, Physics, Chemistry, Biology, Geography, Economics, English).
-2. Cleanly extract only structural vocabulary lists, matching terminology arrays, or critical practice terms.
-3. Automatically delete all institutional school titles, test markers, scoring charts, dates, name tags, and instruction rows like "True or False" or "Fill in the blanks".
-4. Disregard and strip away any messy handwritten adjustments, marks, or pen strokes.
-5. Structure the finalized output strictly as parsed JSON mapping this signature framework:
-{
-  "subject": "Identified Subject Label",
-  "words": ["term1", "term2", "term3"]
-}
-Provide raw structural output ONLY. No chat commentary wrappers, no markdown codeblocks.`;
+                statusEl.textContent = "正在掃描教材頁面文字與排版...";
+                const { data } = await worker.recognize(file);
+                await worker.terminate();
 
-                const cloudPayload = await puter.ai.chat({
-                    model: 'gpt-4o-mini',
-                    messages: [
-                        {
-                            role: 'user',
-                            content: [
-                                { type: 'text', text: layoutPrompt },
-                                { type: 'image_url', image_url: { url: imgDataUri } }
-                            ]
-                        }
-                    ]
+                // SMART HEURISTIC FILTRATION LAYER
+                // Discards headers, metadata rows, short artifact noise, and test commands instantly
+                const extractedTokens = [];
+                const instructionBlacklist = /score|name|date|class|marks|total|page|exercise|fill|choose|circle|test|quiz|homework|学|班|级|名|期|日|分|題/i;
+
+                data.lines.forEach(line => {
+                    let cleanedText = line.text.trim();
+                    if (!cleanedText || cleanedText.length < 2) return;
+                    if (instructionBlacklist.test(cleanedText)) return;
+
+                    // Clear ordered listing layout garbage prefixes (e.g. "1.", "2)", "A.")
+                    cleanedText = cleanedText.replace(/^\s*([0-9a-zA-Z一二三四五六七八九十]+)[\s\.\,\)\-\_、]+/g, '').trim();
+                    
+                    // Remove dangling symbol elements at endings
+                    cleanedText = cleanedText.replace(/[\.\,\:\;\-\_\s]+$/g, '').trim();
+
+                    if (cleanedText.length > 1 && !extractedTokens.includes(cleanedText)) {
+                        extractedTokens.push(cleanedText);
+                    }
                 });
 
-                let parsedContent = cloudPayload.message.content.trim();
-                if (parsedContent.startsWith("```json")) parsedContent = parsedContent.substring(7);
-                if (parsedContent.endsWith("```")) parsedContent = parsedContent.substring(0, parsedContent.length - 3);
+                document.getElementById('extractInfo').innerHTML = `<i class="fas fa-bolt-lightning text-blue-400 mr-1"></i> 已透過本地邊緣引擎完成教材排版過濾`;
+                document.getElementById('extractBanner').classList.remove('hidden');
                 
-                const compiledPayload = JSON.parse(parsedContent.trim());
-                currentDetectedSubject = compiledPayload.subject || "General";
-                
-                document.getElementById('subjectBadge').textContent = currentDetectedSubject;
-                const infoBanner = document.getElementById('extractBanner');
-                infoBanner.classList.remove('hidden');
-                document.getElementById('extractInfo').innerHTML = `<i class="fas fa-wand-magic-sparkles text-blue-400 mr-1"></i> 已透過 Puter Engine 完成表頭與筆跡過濾`;
-                
-                renderActiveFlashcards(compiledPayload.words);
+                if(extractedTokens.length === 0) {
+                    alert("未能從影像中分離出清晰的單字項目，已自動切換至手動編輯模式。");
+                    toggleViewStage('inputSection');
+                } else {
+                    renderActiveFlashcards(extractedTokens);
+                }
 
             } catch (err) {
-                console.error("Vision Processing Pipeline Failure:", err);
+                console.error("Local Vision Engine Exception:", err);
                 alert("教材解析發生錯誤，請重試或使用手動輸入文字模式。");
                 toggleViewStage('inputSection');
             }
         };
 
-        function readAsDataURLAsync(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-
         window.processDirectText = function() {
             const rawInput = document.getElementById('directText').value;
             if (!rawInput.trim()) return;
-            currentDetectedSubject = "General";
             document.getElementById('extractBanner').classList.add('hidden');
             const processedLines = rawInput.split('\n').map(line => line.trim()).filter(line => line.length > 0);
             renderActiveFlashcards(processedLines);
@@ -556,7 +538,7 @@ Provide raw structural output ONLY. No chat commentary wrappers, no markdown cod
             return matchesChinese >= matchesEnglish ? 'zh' : 'en';
         }
 
-        // ==================== RENDERING & INTERACTIVE TRANSLATION ====================
+        // ==================== RENDERING & AUTHLESS DICTIONARY INTERFACE ====================
         function renderActiveFlashcards(wordTokenList) {
             toggleViewStage('resultsSection');
             window.stopPlayback();
@@ -574,9 +556,8 @@ Provide raw structural output ONLY. No chat commentary wrappers, no markdown cod
                 
                 vocabCardsArray.push({ id: index, text: term, lang: detectedLang });
                 
-                // Spec: English terms show Chinese translations, Chinese terms show NO translations.
                 if (detectedLang === 'en') {
-                    setTimeout(() => triggerCloudTranslation(term, index), index * 80);
+                    setTimeout(() => triggerAnonymousTranslation(term, index), index * 60);
                 }
             });
         }
@@ -606,7 +587,6 @@ Provide raw structural output ONLY. No chat commentary wrappers, no markdown cod
                     </button>
                 </div>`;
                 
-            // Spec: Manual editing triggers automatic re-translation for English cards
             const textHeaderNode = wrapperNode.querySelector(`#title-${arrayIdx}`);
             textHeaderNode.addEventListener('blur', () => {
                 const mutatedValue = textHeaderNode.textContent.trim();
@@ -620,7 +600,7 @@ Provide raw structural output ONLY. No chat commentary wrappers, no markdown cod
                             targetTransEl.textContent = '正在翻譯...';
                             targetTransEl.className = 'text-xs text-ink-600 font-medium shimmer w-24 h-4 rounded inline-block';
                         }
-                        triggerCloudTranslation(mutatedValue, arrayIdx);
+                        triggerAnonymousTranslation(mutatedValue, arrayIdx);
                     }
                 }
             });
@@ -641,27 +621,31 @@ Provide raw structural output ONLY. No chat commentary wrappers, no markdown cod
             speechSynthesis.speak(singleUtterance);
         };
 
-        async function triggerCloudTranslation(textValue, dataIdx) {
-            const contextualCacheSignature = `${textValue}|${currentDetectedSubject}|v9`;
-            if (persistentTranslationCache[contextualCacheSignature]) {
-                injectTranslationContent(dataIdx, persistentTranslationCache[contextualCacheSignature]);
+        // Keyless, Signup-Free Public Translation Engine Integration
+        async function triggerAnonymousTranslation(textValue, dataIdx) {
+            const cacheSignature = `${textValue.toLowerCase().trim()}|zh-tw`;
+            if (persistentTranslationCache[cacheSignature]) {
+                injectTranslationContent(dataIdx, persistentTranslationCache[cacheSignature]);
                 return;
             }
             
             try {
-                const executionTemplate = `Translate the subsequent terminology string explicitly into Traditional Chinese (HK/TW educational practice).
-Contextual Focus Element: ${currentDetectedSubject}.
-Term: "${textValue}"
-Provide only the raw traditional Chinese output translation. Avoid wrapping in markers or notes.`;
-
-                const networkResponse = await puter.ai.chat(executionTemplate, { model: 'gpt-4o-mini' });
-                const structuralCleanOutput = networkResponse.message.content.trim().replace(/"/g, "");
+                const queryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(textValue)}&langpair=en|zh-TW`;
+                const res = await fetch(queryUrl);
+                const json = await res.json();
                 
-                persistentTranslationCache[contextualCacheSignature] = structuralCleanOutput;
+                let transResult = json.responseData?.translatedText;
+                
+                // Sanitization fallback layer if translation echoes the identical query
+                if (!transResult || transResult.toLowerCase().trim() === textValue.toLowerCase().trim()) {
+                    transResult = "—";
+                }
+                
+                persistentTranslationCache[cacheSignature] = transResult;
                 localStorage.setItem('tts_cache_v1', JSON.stringify(persistentTranslationCache));
-                injectTranslationContent(dataIdx, structuralCleanOutput);
+                injectTranslationContent(dataIdx, transResult);
             } catch (err) {
-                console.warn("Translation layer gracefully adapted:", err);
+                console.warn("Translation node adaptation:", err);
                 injectTranslationContent(dataIdx, "—");
             }
         }
@@ -699,17 +683,16 @@ Provide only the raw traditional Chinese output translation. Avoid wrapping in m
             const activeCardItem = vocabCardsArray[currentItemIndex];
             if (!activeCardItem) { advancePlaybackStep(); return; }
             
-            // Spec: Blue card highlight and auto-scroll placement centered smoothly
             applyActiveCardFocus(activeCardItem.id);
             document.getElementById('playerText').textContent = activeCardItem.text;
             document.getElementById('playerProgress').textContent = `${activeQueuePointer + 1} / ${activeExecutionQueue.length}`;
             document.getElementById('playerBar').style.width = (((activeQueuePointer + 1) / activeExecutionQueue.length) * 100) + '%';
             
             const textTokens = activeCardItem.text.split(/\s+/).filter(tk => tk.length > 0);
-            // Spec: Multi-word English phrases follow: token -> 0.5s -> token -> 3s -> next vocabulary item
             const triggerMultiWordGapMode = activeCardItem.lang === 'en' && textTokens.length > 1;
             
             if (triggerMultiWordGapMode) {
+                // Spec: Multi-word English phrases follow: token -> 0.5s -> token -> 3s -> next vocabulary item
                 executeSubwordTokenLoop(textTokens, 0, () => {
                     if (playbackActiveState && !playbackPausedState) {
                         corePlaybackTimer = setTimeout(advancePlaybackStep, 3000);
@@ -732,7 +715,6 @@ Provide only the raw traditional Chinese output translation. Avoid wrapping in m
             }
         }
 
-        // Multi-word phrase recursive sequence processor
         function executeSubwordTokenLoop(tokensArray, currentTokenIdx, completeSequenceCallback) {
             if (!playbackActiveState || playbackPausedState) return;
             if (currentTokenIdx >= tokensArray.length) { completeSequenceCallback(); return; }
@@ -799,7 +781,6 @@ Provide only the raw traditional Chinese output translation. Avoid wrapping in m
 
         window.playAll = function() { engageQueuePlayback(vocabCardsArray.map((_, idx) => idx)); };
         
-        // Fisher-Yates high-randomization array shuffler logic mapping
         window.playShuffle = function() { 
             const randomizedIndices = vocabCardsArray.map((_, idx) => idx);
             for (let i = randomizedIndices.length - 1; i > 0; i--) {
