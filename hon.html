@@ -464,6 +464,7 @@
             controls.classList.remove('hidden');
             closeBtn.classList.remove('hidden');
             clearTimeout(uiTimeout);
+            goToSlide(currentIndex);
         }
 
         function hideUI() {
@@ -484,7 +485,6 @@
             renderSlides();
             updatePosition(false);
             updateCounter();
-            goToSlide(index);
             lightbox.classList.add('active');
             scrollY = window.scrollY;
             document.body.classList.add('lock-scroll');
