@@ -430,7 +430,7 @@
                 slide.className = 'swiper-slide';
                 slide.innerHTML = `
                     <img src="${img.url}" alt="${img.name}" draggable="false" id="slide-img-${index}">
-                    <div class="slide-name" id="slide-name-${index}">${img.name}</div>
+                    <div class="slide-name" id="slide-name-${index}"><a href="${window.location.pathname}?img=${img.name}">${img.name}</a></div>
                 `;
                 wrapper.appendChild(slide);
             });
