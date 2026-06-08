@@ -434,6 +434,7 @@
                 slide.innerHTML = `<img src="${img.url}" alt="${img.name}" draggable="false" id="slide-img-${index}">`;
                 wrapper.appendChild(slide);
             });
+            goToSlide(currentIndex);
         }
 
         function getCurrentImg() {
@@ -482,7 +483,6 @@
         function openLightbox(index) {
             currentIndex = index;
             renderSlides();
-            goToSlide(currentIndex);
             updatePosition(false);
             updateCounter();
             lightbox.classList.add('active');
