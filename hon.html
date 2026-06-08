@@ -367,7 +367,18 @@
             { url: "https://i.ibb.co/JRJtscT7/61e7992fdffd604097c7a0ce3f2ba87e.jpg", name: "61e7992f" }
         ];
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const priorityImg = urlParams.get('img');
+
         imageData.sort((a, b) => a.name.localeCompare(b.name));
+
+        if (priorityImg) {
+            const idx = imageData.findIndex(img => img.name === priorityImg);
+            if (idx > 0) {
+                const [img] = imageData.splice(idx, 1);
+                imageData.unshift(img);
+            }
+        }
 
         const urls = imageData.map(img => img.url);
         const nameMap = {};
