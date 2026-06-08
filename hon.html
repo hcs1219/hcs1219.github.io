@@ -785,7 +785,8 @@
             const imgParam = params.get('img');
             if (imgParam !== null && nameMap[imgParam] !== undefined) {
                 openLightbox(nameMap[imgParam]);
-            }
+            };
+            history.replaceState({}, '', window.location.pathname);
         }
 
         renderGallery();
