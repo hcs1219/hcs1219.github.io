@@ -426,7 +426,7 @@
             });
         }
 
-        function renderSlides() {
+        function renderSlides(i) {
             wrapper.innerHTML = '';
             imageData.forEach((img, index) => {
                 const slide = document.createElement('div');
@@ -434,7 +434,7 @@
                 slide.innerHTML = `<img src="${img.url}" alt="${img.name}" draggable="false" id="slide-img-${index}">`;
                 wrapper.appendChild(slide);
             });
-            goToSlide(currentIndex);
+            goToSlide(i);
         }
 
         function getCurrentImg() {
@@ -482,7 +482,7 @@
 
         function openLightbox(index) {
             currentIndex = index;
-            renderSlides();
+            renderSlides(index);
             updatePosition(false);
             updateCounter();
             lightbox.classList.add('active');
