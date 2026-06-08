@@ -420,7 +420,6 @@
                 // Use data attribute for reliable index
                 item.dataset.index = index;
                 item.onclick = function() {
-                    goToSlide(parseInt(this.dataset.index, 10));
                     openLightbox(parseInt(this.dataset.index, 10));
                 };
                 gallery.appendChild(item);
