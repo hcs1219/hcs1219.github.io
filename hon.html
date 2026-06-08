@@ -482,8 +482,9 @@
         function openLightbox(index) {
             currentIndex = index;
             renderSlides();
-            updatePosition(true);
+            updatePosition(false);
             updateCounter();
+            goToSlide(index);
             lightbox.classList.add('active');
             scrollY = window.scrollY;
             document.body.classList.add('lock-scroll');
