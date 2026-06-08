@@ -209,9 +209,6 @@
             text-align: center;
             opacity: 0.85;
             user-select: none;
-        }
-        
-        .slide-name > a {
             text-decoration: none;
         }
 
@@ -434,7 +431,7 @@
                 slide.className = 'swiper-slide';
                 slide.innerHTML = `
                     <img src="${img.url}" alt="${img.name}" draggable="false" id="slide-img-${index}">
-                    <div class="slide-name" id="slide-name-${index}"><a href="${window.location.pathname}?img=${img.name}">${img.name}</a></div>
+                    <a class="slide-name" id="slide-name-${index}" href="${window.location.pathname}?img=${img.name}">${img.name}</a>
                 `;
                 wrapper.appendChild(slide);
             });
