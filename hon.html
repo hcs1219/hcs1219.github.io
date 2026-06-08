@@ -426,7 +426,7 @@
             });
         }
 
-        function renderSlides(i) {
+        function renderSlides() {
             wrapper.innerHTML = '';
             imageData.forEach((img, index) => {
                 const slide = document.createElement('div');
@@ -434,7 +434,6 @@
                 slide.innerHTML = `<img src="${img.url}" alt="${img.name}" draggable="false" id="slide-img-${index}">`;
                 wrapper.appendChild(slide);
             });
-            goToSlide(i);
         }
 
         function getCurrentImg() {
@@ -482,7 +481,7 @@
 
         function openLightbox(index) {
             currentIndex = index;
-            renderSlides(index);
+            renderSlides();
             updatePosition(false);
             updateCounter();
             lightbox.classList.add('active');
@@ -490,6 +489,7 @@
             document.body.classList.add('lock-scroll');
             document.body.style.top = `-${scrollY}px`;
             showUI();
+            goToSlide(currentIndex);
         }
 
         function closeLightbox() {
