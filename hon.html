@@ -146,7 +146,6 @@
             font-weight: 500;
         }
 
-        /* ─── SWIPER LIGHTBOX ─── */
         .swiper-lightbox {
             position: fixed;
             inset: 0;
@@ -187,11 +186,12 @@
             justify-content: center;
             padding: 20px;
             position: relative;
+            flex-direction: column;
         }
 
         .swiper-slide img {
             max-width: 100%;
-            max-height: 85vh;
+            max-height: 75vh;
             object-fit: contain;
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.1);
@@ -201,7 +201,16 @@
             transition: none;
         }
 
-        /* ─── CONTROLS ─── */
+        .slide-name {
+            margin-top: 16px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text);
+            text-align: center;
+            opacity: 0.85;
+            user-select: none;
+        }
+
         .swiper-controls {
             display: flex;
             align-items: center;
@@ -255,7 +264,6 @@
             flex-shrink: 0;
         }
 
-        /* Close button */
         .swiper-close {
             position: absolute;
             top: 12px;
@@ -293,12 +301,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsive */
         @media (max-width: 640px) {
             header { padding: 40px 16px 24px; }
             .gallery { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
             .swiper-slide { padding: 12px; }
-            .swiper-slide img { max-height: 80vh; border-radius: 8px; }
+            .swiper-slide img { max-height: 70vh; border-radius: 8px; }
+            .slide-name { font-size: 0.85rem; margin-top: 12px; }
             .swiper-controls { gap: 20px; padding: 10px 16px 20px; }
             .swiper-controls .btn { width: 44px; height: 44px; font-size: 1.4rem; }
             .swiper-close { top: 8px; right: 12px; width: 32px; height: 32px; font-size: 1.4rem; }
@@ -334,7 +342,6 @@
     </div>
 
     <script>
-        // ─── IMAGE DATA with names ───
         const imageData = [
             { url: "https://i.ibb.co/wZpz0zYD/IMG-4431.jpg", name: "IMG-4431" },
             { url: "https://i.ibb.co/tpvFm0vc/IMG-4432.jpg", name: "IMG-4432" },
@@ -361,17 +368,8 @@
             { url: "https://i.ibb.co/0jVC4jYx/IMG-4536.png", name: "IMG-4536" }
         ];
 
-        // Shuffle on load
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-        shuffle(imageData);
+        imageData.sort((a, b) => a.name.localeCompare(b.name));
 
-        // Extract URLs for internal use
         const urls = imageData.map(img => img.url);
         const nameMap = {};
         imageData.forEach((img, idx) => {
@@ -417,7 +415,6 @@
                     <img src="${img.url}" alt="${img.name}" loading="lazy">
                     <div class="overlay"><span>${img.name}</span></div>
                 `;
-                // Use data attribute for reliable index
                 item.dataset.index = index;
                 item.onclick = function() {
                     openLightbox(parseInt(this.dataset.index, 10));
@@ -431,13 +428,20 @@
             imageData.forEach((img, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'swiper-slide';
-                slide.innerHTML = `<img src="${img.url}" alt="${img.name}" draggable="false" id="slide-img-${index}">`;
+                slide.innerHTML = `
+                    <img src="${img.url}" alt="${img.name}" draggable="false" id="slide-img-${index}">
+                    <div class="slide-name" id="slide-name-${index}">${img.name}</div>
+                `;
                 wrapper.appendChild(slide);
             });
         }
 
         function getCurrentImg() {
             return document.getElementById(`slide-img-${currentIndex}`);
+        }
+
+        function getCurrentName() {
+            return document.getElementById(`slide-name-${currentIndex}`);
         }
 
         function applyZoom() {
@@ -531,7 +535,6 @@
             return { x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 };
         }
 
-        // ─── TOUCH EVENTS ───
         container.addEventListener('touchstart', (e) => {
             lastTouchCount = e.touches.length;
 
@@ -604,7 +607,6 @@
             const timeDiff = now - lastTapTime;
             lastTapTime = now;
 
-            // Double tap detection
             if (timeDiff < 300 && timeDiff > 0 && e.changedTouches.length === 1 && lastTouchCount === 1) {
                 e.preventDefault();
                 if (scale > 1) {
@@ -626,12 +628,10 @@
                 return;
             }
 
-            // Single tap to toggle UI (only when zoomed)
             if (timeDiff >= 300 && e.changedTouches.length === 1 && lastTouchCount === 1 && !isDragging && !isZooming) {
                 toggleUI();
             }
 
-            // Handle zoom end
             if (isZooming) {
                 if (e.touches.length === 0) {
                     isZooming = false;
@@ -645,7 +645,6 @@
                 return;
             }
 
-            // Handle swipe end
             if (!isDragging) return;
             isDragging = false;
             wrapper.classList.remove('dragging');
@@ -664,7 +663,6 @@
             }
         }, { passive: true });
 
-        // ─── MOUSE DRAG (desktop) ───
         container.addEventListener('mousedown', (e) => {
             if (scale > 1) {
                 isZooming = true;
@@ -737,7 +735,6 @@
             }
         });
 
-        // ─── MOUSE WHEEL ZOOM ───
         container.addEventListener('wheel', (e) => {
             e.preventDefault();
             const delta = e.deltaY > 0 ? 0.9 : 1.1;
@@ -764,7 +761,6 @@
             }
         }, { passive: false });
 
-        // ─── KEYBOARD ───
         document.addEventListener('keydown', (e) => {
             if (!lightbox.classList.contains('active')) return;
             if (e.key === 'Escape') closeLightbox();
@@ -772,14 +768,12 @@
             if (e.key === 'ArrowRight') goToSlide(currentIndex + 1);
         });
 
-        // Resize handler
         window.addEventListener('resize', () => {
             if (lightbox.classList.contains('active')) {
                 updatePosition(false);
             }
         });
 
-        // ─── URL PARAMETER: ?img=NAME ───
         function checkUrlParams() {
             const params = new URLSearchParams(window.location.search);
             const imgParam = params.get('img');
