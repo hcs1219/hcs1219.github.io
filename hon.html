@@ -464,7 +464,6 @@
             controls.classList.remove('hidden');
             closeBtn.classList.remove('hidden');
             clearTimeout(uiTimeout);
-            goToSlide(currentIndex);
         }
 
         function hideUI() {
@@ -483,6 +482,7 @@
         function openLightbox(index) {
             currentIndex = index;
             renderSlides();
+            goToSlide(currentIndex);
             updatePosition(false);
             updateCounter();
             lightbox.classList.add('active');
