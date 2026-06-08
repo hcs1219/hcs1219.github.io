@@ -343,13 +343,13 @@
 
     <script>
         const imageData = [
-            { url: "https://i.ibb.co/wZpz0zYD/IMG-4431.jpg", name: "IMG-4431" },
-            { url: "https://i.ibb.co/tpvFm0vc/IMG-4432.jpg", name: "IMG-4432" },
-            { url: "https://i.ibb.co/Q3Q7cY6Q/IMG-4433.jpg", name: "IMG-4433" },
+            { url: "https://i.ibb.co/wZpz0zYD/IMG-4431.jpg", name: "IMG-4431", thumbPos: "top" },
+            { url: "https://i.ibb.co/tpvFm0vc/IMG-4432.jpg", name: "IMG-4432", thumbPos: "top" },
+            { url: "https://i.ibb.co/Q3Q7cY6Q/IMG-4433.jpg", name: "IMG-4433", thumbPos: "top" },
             { url: "https://i.ibb.co/qMFmG19h/IMG-4505.jpg", name: "IMG-4505" },
             { url: "https://i.ibb.co/ZzcRKYy9/IMG-4506.jpg", name: "IMG-4506" },
             { url: "https://i.ibb.co/XxB36b7L/IMG-4538.jpg", name: "IMG-4538" },
-            { url: "https://i.ibb.co/JF7GC729/3f53e614212339285ec301ab2cbdf318.jpg", name: "3f53e614" },
+            { url: "https://i.ibb.co/JF7GC729/3f53e614212339285ec301ab2cbdf318.jpg", name: "3f53e614", thumbPos: "top" },
             { url: "https://i.ibb.co/jZRXtKvN/b0d33df6-4abb-4c9d-b07d-9ff614a987fc.jpg", name: "b0d33df6" },
             { url: "https://i.ibb.co/BHPvXSq0/3da47382-701c-4f52-a101-67a1bccc6e28.jpg", name: "3da47382" },
             { url: "https://i.ibb.co/VYFpQkgz/36781c38514d1c480374b1213b1ee93d.jpg", name: "36781c38" },
@@ -412,6 +412,22 @@
         let initialPanX = 0, initialPanY = 0;
         let lastTouchCount = 0;
 
+        function getThumbPosition(img) {
+            const pos = img.thumbPos || 'center';
+            const posMap = {
+                'top': '50% 0%',
+                'bottom': '50% 100%',
+                'left': '0% 50%',
+                'right': '100% 50%',
+                'center': '50% 50%',
+                'top-left': '0% 0%',
+                'top-right': '100% 0%',
+                'bottom-left': '0% 100%',
+                'bottom-right': '100% 100%'
+            };
+            return posMap[pos] || posMap['center'];
+        }
+
         function renderGallery() {
             const gallery = document.getElementById('gallery');
             gallery.innerHTML = '';
@@ -419,8 +435,9 @@
                 const item = document.createElement('div');
                 item.className = 'gallery-item';
                 item.style.animationDelay = `${index * 0.04}s`;
+                const thumbPos = getThumbPosition(img);
                 item.innerHTML = `
-                    <img src="${img.url}" alt="${img.name}" loading="lazy">
+                    <img src="${img.url}" alt="${img.name}" loading="lazy" style="object-position: ${thumbPos};">
                     <div class="overlay"><span>${img.name}</span></div>
                 `;
                 item.dataset.index = index;
