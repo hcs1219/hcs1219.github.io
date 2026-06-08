@@ -198,7 +198,12 @@
             user-select: none;
             -webkit-user-drag: none;
             will-change: transform;
-            transition: none;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .swiper-slide img.loaded {
+            opacity: 1;
         }
 
         .slide-name {
@@ -369,7 +374,6 @@
 
         imageData.sort((a, b) => a.name.localeCompare(b.name));
 
-        const urls = imageData.map(img => img.url);
         const nameMap = {};
         imageData.forEach((img, idx) => {
             nameMap[img.name] = idx;
@@ -403,6 +407,9 @@
         let initialPanX = 0, initialPanY = 0;
         let lastTouchCount = 0;
 
+        // Track which slides have been loaded
+        const loadedSlides = new Set();
+
         function renderGallery() {
             const gallery = document.getElementById('gallery');
             gallery.innerHTML = '';
@@ -424,15 +431,52 @@
 
         function renderSlides() {
             wrapper.innerHTML = '';
+            loadedSlides.clear();
             imageData.forEach((img, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'swiper-slide';
+                // data-src holds the URL; src is empty until loaded
                 slide.innerHTML = `
-                    <img src="${img.url}" alt="${img.name}" draggable="false" id="slide-img-${index}">
+                    <img data-src="${img.url}" alt="${img.name}" draggable="false" id="slide-img-${index}">
                     <a class="slide-name" id="slide-name-${index}" href="${window.location.pathname}?img=${img.name}">${img.name}</a>
                 `;
                 wrapper.appendChild(slide);
             });
+        }
+
+        function loadSlideImage(index) {
+            if (index < 0 || index >= imageData.length) return;
+            if (loadedSlides.has(index)) return;
+            loadedSlides.add(index);
+
+            const img = document.getElementById(`slide-img-${index}`);
+            if (img && img.dataset.src) {
+                img.src = img.dataset.src;
+                if (img.complete) {
+                    img.classList.add('loaded');
+                } else {
+                    img.onload = () => img.classList.add('loaded');
+                    img.onerror = () => img.classList.add('loaded'); // show broken image rather than blank
+                }
+            }
+        }
+
+        // Priority: target first, then neighbors outward
+        // Example: a-b-c-d-e-f-g, target=d -> d, then c+e, then b+f, then a+g
+        function preloadPriority(targetIdx) {
+            // Immediate load
+            loadSlideImage(targetIdx);
+
+            const maxDist = Math.max(targetIdx, imageData.length - 1 - targetIdx);
+            for (let dist = 1; dist <= maxDist; dist++) {
+                const left = targetIdx - dist;
+                const right = targetIdx + dist;
+                // Stagger by distance so closer images load first
+                setTimeout(() => {
+                    if (left >= 0) loadSlideImage(left);
+                    if (right < imageData.length && right !== left) loadSlideImage(right);
+                }, dist * 60);
+            }
         }
 
         function getCurrentImg() {
@@ -492,7 +536,9 @@
             document.body.classList.add('lock-scroll');
             document.body.style.top = `-${scrollY}px`;
             showUI();
-            goToSlide(currentIndex);
+
+            // Load target first, then neighbors by priority
+            preloadPriority(currentIndex);
         }
 
         function closeLightbox() {
@@ -502,6 +548,7 @@
             document.body.style.top = '';
             window.scrollTo(0, scrollY);
             clearTimeout(uiTimeout);
+            loadedSlides.clear();
         }
 
         function goToSlide(index) {
@@ -511,6 +558,9 @@
             resetZoom();
             updatePosition(true);
             updateCounter();
+
+            // Ensure the slide we navigated to is loaded immediately
+            loadSlideImage(currentIndex);
         }
 
         function updatePosition(animate) {
@@ -778,7 +828,7 @@
             const imgParam = params.get('img');
             if (imgParam !== null && nameMap[imgParam] !== undefined) {
                 openLightbox(nameMap[imgParam]);
-            };
+            }
             history.replaceState({}, '', window.location.pathname);
         }
 
